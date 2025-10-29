@@ -71,7 +71,7 @@ const FormLogin = () => {
           alt="Logo Piket Nekat"
         />
         <h1 className="text-2xl font-bold mb-4 text-black">LOGIN</h1>
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="login-form w-full mx-5">
           <div className="form-group">
             <label htmlFor="nip" className="flex justify-start items-start">NIP</label>
             <Input
@@ -104,7 +104,7 @@ const FormLogin = () => {
 
           <button
             type="submit"
-            className="bg-gray-800 hover:bg-black text-white rounded-sm px-10 py-1 mt-3 text-sm transition-transform duration-200 hover:scale-105"
+            className="bg-gray-800 hover:bg-black text-white rounded-sm px-10 py-1 mt-3 text-lg  transition-transform duration-200 hover:scale-105"
           >
             Login
           </button>

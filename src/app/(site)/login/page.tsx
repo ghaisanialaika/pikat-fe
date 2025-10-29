@@ -19,20 +19,20 @@ export default function Login() {
         className="absolute inset-0 bg-linear-to-b from-black/70 to-[#007D72] z-0"
       />
 
-      <div className="relative z-10 bg-gray-100 p-8 rounded-2xl shadow-xl flex flex-col justify-center items-center text-center max-w-lg w-full">
-        <p className="text-gray-800 mb-1 text-sm">Selamat datang, di</p>
+      <div className="relative z-10 bg-gray-100 h-full my-70 p-8 rounded-2xl shadow-xl flex flex-col justify-center items-center text-center max-w-lg w-full">
+        <p className="text-gray-800 mb-1 text-lg">Selamat datang, di</p>
 
         <Image
           src="/pinekat.svg"
           alt="Logo Piket Nekat"
           width={1000}
           height={1000}
-          className="w-full max-w-40"
+          className="w-full max-w-70"
         />
 
         <button
           onClick={handleClick}
-          className="bg-gray-800 hover:bg-black text-white rounded-sm px-10 py-1 mt-3 text-sm transition-transform duration-200 hover:scale-105"
+          className="bg-gray-800 hover:bg-black text-white rounded-sm px-10 py-1 mt-3 text-lg transition-transform duration-200 hover:scale-105"
         >
           Masuk dengan login
         </button>
