@@ -1,0 +1,129 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.dash-page-wrapper {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #ffffff, #00bfa5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.logo-pojok {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    width: 120px;
+}
+
+.profile-container {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-trigger {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+.dash-profile-logo img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.profile-arrow {
+    font-size: 1rem;
+    margin-top: 5px;
+    line-height: 1;
+    color: #333;
+}
+
+.profile-dropdown {
+    position: absolute;
+    top: 85px;
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 150px;
+    overflow: hidden;
+    z-index: 20;
+}
+
+.profile-dropdown a {
+    display: block;
+    padding: 12px 16px;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.profile-dropdown a:hover {
+    background-color: #f4f4f4;
+}
+
+.form-dash-card {
+    text-align: center;
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-dash-card h2 {
+    font-weight: 900;
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.form-dash-card strong {
+    color: rgb(187, 110, 110);
+}
+
+.form-dash-card p {
+    color: #555;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.tombol {
+    background-color: #3e3e3e;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 18px 90px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.tombol:hover {
+    background-color: #505050;
+}
+
+.tombol span {
+    font-size: 1.2rem;
+}

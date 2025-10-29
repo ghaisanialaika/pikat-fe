@@ -1,0 +1,154 @@
+.form-login-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background: url('/DJI_0868.JPG') center/cover no-repeat;
+  padding: 20px;
+}
+
+/* --- Card --- */
+.form-login-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 45px 50px;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  width: 370px;
+  animation: fadeIn 0.5s ease;
+}
+
+/* --- Logo --- */
+.form-login-card img {
+  display: block;
+  width: 120px;
+  margin: 0 auto 1.2rem auto;
+}
+
+/* --- Title --- */
+.form-login-card h2 {
+  color: #222;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* --- Form --- */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+.form-group input {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.15);
+}
+
+.form-group input.error {
+  border-color: #e74c3c;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* --- Option (Remember / Forgot) --- */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+  font-size: 0.85rem;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.forgot-password {
+  color: #4a90e2;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+  color: #357abd;
+}
+
+/* --- Button --- */
+.login-submit-btn {
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-submit-btn:hover {
+  background-color: #357abd;
+  transform: scale(1.02);
+}
+
+/* --- Signup Link --- */
+.signup-link {
+  text-align: center;
+  margin-top: 1rem;
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.signup-link a {
+  color: #4a90e2;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
+  color: #357abd;
+}
+
+/* --- Animasi lembut --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
