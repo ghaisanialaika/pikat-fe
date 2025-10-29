@@ -54,6 +54,8 @@ body {
 
 .profile-dropdown {
     position: absolute;
+    display: flex;
+    flex-direction: column;
     top: 85px;
     right: 0;
     background-color: white;
