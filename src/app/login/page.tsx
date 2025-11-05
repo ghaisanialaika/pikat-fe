@@ -11,7 +11,7 @@
 
     return (
         <div
-        className="relative flex flex-col items-center justify-center h-screen w-full bg-cover bg-center p-5"
+        className="relative flex flex-col items-center justify-center h-screen w-full bg-cover bg-center p-5 md:px-50"
         style={{ backgroundImage: "url('/smk.jpg')" }}
         >
         <div
@@ -19,7 +19,7 @@
             className="absolute inset-0 bg-linear-to-b from-black/70 to-[#007D72] z-0"
         />
 
-        <div className="relative z-10 bg-gray-100 p-8 rounded-2xl shadow-xl flex flex-col justify-center items-center text-center max-w-lg w-full">
+        <div className="relative z-10 bg-gray-100 p-8 rounded-2xl shadow-xl flex flex-col justify-center items-center text-center  h-screen my-20 w-full">
             <p className="text-gray-800 mb-1 text-sm">Selamat datang, di</p>
 
             <Image
