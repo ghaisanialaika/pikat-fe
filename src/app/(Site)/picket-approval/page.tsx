@@ -40,9 +40,6 @@ export default function PicketApproval() {
   const [loadingData, setLoadingData] = useState(true);
   const [user, setUser] = useState<UserAuth>();
   const [permits, setPermits] = useState<StudentPermit[]>([]);
-  const isAdmin = user?.roles?.includes("admin");
-  const isPiket = user?.roles?.includes("piket");
-  const isMapel = user?.roles?.includes("mapel");
   const router = useRouter();
 
   const fetchMapelPermits = async () => {
@@ -83,7 +80,10 @@ export default function PicketApproval() {
     }
   };
   useEffect(() => {
-    fetchMapelPermits();
+    if (user?.roles?.includes("piket")) {
+      router.replace("/dashboard");
+    }
+      fetchMapelPermits();
   }, []);
   
   useEffect(() => {

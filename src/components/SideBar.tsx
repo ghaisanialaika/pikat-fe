@@ -10,10 +10,9 @@ import {
   Home,
   Table,
   Clock,
-  Users2Icon,
   Edit,
   Eye,
-  ChevronDown, // Import icon panah
+  ChevronDown, 
   ChevronUp,
 } from "lucide-react";
 import api from "@/lib/axios";
@@ -34,10 +33,8 @@ export default function SideBar() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  // State untuk melacak menu dropdown mana yang terbuka (berdasarkan nama menu)
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
 
-  // Handle Resize untuk Mobile/Desktop
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) {
@@ -51,6 +48,15 @@ export default function SideBar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+    const hasAccess = (itemRoles?: string[]) => {
+      if (!itemRoles || itemRoles.length === 0) return true;
+      if (!user) return false;
+
+      return itemRoles.some((role) => user.roles.includes(role));
+    };
+
+
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -63,18 +69,19 @@ export default function SideBar() {
     fetchUser();
   }, []);
 
-  // Auto-open submenu jika berada di halaman anak saat refresh
-  useEffect(() => {
-    menuItems.forEach((item) => {
+useEffect(() => {
+  menuItems
+    .filter((item) => hasAccess(item.roles))
+    .forEach((item) => {
       if (item.subLinks) {
-        const isActive = item.subLinks.some((sub) => pathname === sub.href);
-        if (isActive) {
-          setOpenSubMenu(item.name);
-        }
+        const isActive = item.subLinks
+          .filter((sub) => hasAccess(sub.roles))
+          .some((sub) => pathname === sub.href);
+
+        if (isActive) setOpenSubMenu(item.name);
       }
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+}, [pathname, user]);
 
   const handleLogout = async () => {
     try {
@@ -86,9 +93,9 @@ export default function SideBar() {
 
   const toggleSubMenu = (menuName: string) => {
     if (openSubMenu === menuName) {
-      setOpenSubMenu(null); // Tutup jika sudah terbuka
+      setOpenSubMenu(null); 
     } else {
-      setOpenSubMenu(menuName); // Buka menu ini
+      setOpenSubMenu(menuName);
     }
   };
 
@@ -103,10 +110,10 @@ export default function SideBar() {
       name: "Laporan Izin",
       href: "/report",
       icon: Table,
-      roles: ["piket"],
+      roles: ["piket", "admin"],
     },
     {
-      name: "Persetujuan Surat Izin",
+      name: "Persetujuan Izin",
       href: "/picket-approval",
       icon: Table,
       roles: ["piket", "admin"],
@@ -121,29 +128,23 @@ export default function SideBar() {
       name: "Buat Surat Izin",
       href: "/license",
       icon: Edit,
-      roles: ["mapel"],
+      roles: ["mapel", "admin"],
     },
     {
       name: "Kelola Data",
       href: "/view-data",
       subLinks: [
         {
-          name: "Data Guru",
+          name: "Data Guru Mapel",
           href: "/view-data/teacher-data",
-        },
-        {
-          name: "Data Mapel",
-          href: "/view-data/mapel-data",
-        },
-        {
-          name: "Data Jadwal Piket",
-          href: "/view-data/piket-jadwal-data",
+          roles: ["admin"],
         },
       ],
       icon: Eye,
       roles: ["admin"],
     },
   ];
+
 
   return (
     <>
@@ -172,7 +173,7 @@ export default function SideBar() {
       >
         <div className="p-3 flex items-center gap-3 px-15">
           <Image
-            src="/logo.png"
+            src="/Logo.png"
             width={1000}
             height={1000}
             alt="Logo"
@@ -181,108 +182,114 @@ export default function SideBar() {
         </div>
 
         <nav className="flex-1 space-y-2 py-4 overflow-y-auto">
-          {menuItems.map((item) => {
-            const hasSubLinks = item.subLinks && item.subLinks.length > 0;
+          {menuItems
+            .filter((item) => hasAccess(item.roles))
+            .map((item) => {
+              const hasSubLinks = item.subLinks && item.subLinks.length > 0;
 
-            const isParentActive = hasSubLinks
-              ? item.subLinks?.some((sub) => pathname === sub.href)
-              : pathname === item.href;
+              const isParentActive = hasSubLinks
+                ? item.subLinks?.some((sub) => pathname === sub.href)
+                : pathname === item.href;
 
-            if (hasSubLinks) {
-              return (
-                <div key={item.name} className="flex flex-col">
-                  <button
-                    onClick={() => toggleSubMenu(item.name)}
-                    className={`relative flex items-center justify-between px-10 py-3 transition-all duration-200 group w-full ${
-                      isParentActive
-                        ? "text-[#007D72]"
-                        : "text-slate-800 hover:bg-[#007D72] hover:text-white"
-                    }`}
-                  >
-                    <div className="flex items-center">
-                      {isParentActive && (
-                        <span className="absolute left-0 top-1/2 -translate-y-1/2 h-[80%] w-1.5 bg-[#007D72] rounded-full" />
+              if (hasSubLinks) {
+                return (
+                  <div key={item.name} className="flex flex-col">
+                    <button
+                      onClick={() => toggleSubMenu(item.name)}
+                      className={`relative flex items-center justify-between px-10 py-3 transition-all duration-200 group w-full ${
+                        isParentActive
+                          ? "text-[#007D72]"
+                          : "text-slate-800 hover:bg-[#007D72] hover:text-white"
+                      }`}
+                    >
+                      <div className="flex items-center">
+                        {isParentActive && (
+                          <span className="absolute left-0 top-1/2 -translate-y-1/2 h-[80%] w-1.5 bg-[#007D72] rounded-full" />
+                        )}
+                        <item.icon
+                          size={25}
+                          className={`mr-2 ${
+                            isParentActive
+                              ? "text-[#007D72]"
+                              : "text-slate-500 group-hover:text-white"
+                          }`}
+                        />
+                        <span className="font-medium text-md">{item.name}</span>
+                      </div>
+                      {openSubMenu === item.name ? (
+                        <ChevronUp
+                          size={18}
+                          className={
+                            isParentActive
+                              ? "text-[#007D72]"
+                              : "text-slate-500 group-hover:text-white"
+                          }
+                        />
+                      ) : (
+                        <ChevronDown
+                          size={18}
+                          className={
+                            isParentActive
+                              ? "text-[#007D72]"
+                              : "text-slate-500 group-hover:text-white"
+                          }
+                        />
                       )}
-                      <item.icon
-                        size={25}
-                        className={`mr-2 ${
-                          isParentActive
-                            ? "text-[#007D72]"
-                            : "text-slate-500 group-hover:text-white"
-                        }`}
-                      />
-                      <span className="font-medium text-md">{item.name}</span>
-                    </div>
-                    {openSubMenu === item.name ? (
-                      <ChevronUp
-                        size={18}
-                        className={
-                          isParentActive
-                            ? "text-[#007D72]"
-                            : "text-slate-500 group-hover:text-white"
-                        }
-                      />
-                    ) : (
-                      <ChevronDown
-                        size={18}
-                        className={
-                          isParentActive
-                            ? "text-[#007D72]"
-                            : "text-slate-500 group-hover:text-white"
-                        }
-                      />
+                    </button>
+
+                    {openSubMenu === item.name && (
+                      <div className="bg-slate-50/50 py-1">
+                        <ScrollArea className="">
+                          {item.subLinks
+                            ?.filter((subItem) => hasAccess(subItem.roles))
+                            .map((subItem) => {
+                              const isSubActive = pathname === subItem.href;
+                              return (
+                                <Link
+                                  key={subItem.href}
+                                  href={subItem.href}
+                                  className={`flex items-center pl-20 pr-4 py-2 text-sm transition-all duration-200 ${
+                                    isSubActive
+                                      ? "text-[#007D72] font-bold"
+                                      : "text-slate-500 hover:text-[#007D72]"
+                                  }`}
+                                >
+                                  <span
+                                    className={`w-1.5 h-1.5 rounded-full mr-2 ${
+                                      isSubActive
+                                        ? "bg-[#007D72]"
+                                        : "bg-slate-300"
+                                    }`}
+                                  ></span>
+                                  {subItem.name}
+                                </Link>
+                              );
+                            })}
+                        </ScrollArea>
+                      </div>
                     )}
-                  </button>
+                  </div>
+                );
+              }
 
-                  {openSubMenu === item.name && (
-                    <div className="bg-slate-50/50 py-1">
-                      <ScrollArea className="">
-                        {item.subLinks?.map((subItem) => {
-                          const isSubActive = pathname === subItem.href;
-                          return (
-                            <Link
-                              key={subItem.href}
-                              href={subItem.href}
-                              className={`flex items-center pl-20 pr-4 py-2 text-sm transition-all duration-200 ${
-                                isSubActive
-                                  ? "text-[#007D72] font-bold"
-                                  : "text-slate-500 hover:text-[#007D72]"
-                              }`}
-                            >
-                              <span
-                                className={`w-1.5 h-1.5 rounded-full mr-2 ${
-                                  isSubActive ? "bg-[#007D72]" : "bg-slate-300"
-                                }`}
-                              ></span>
-                              {subItem.name}
-                            </Link>
-                          );
-                        })}
-                      </ScrollArea>
-                    </div>
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`relative flex items-center px-10 py-3 transition-all duration-200 group ${
+                    isActive
+                      ? "text-[#007D72] "
+                      : "text-slate-800 hover:bg-[#007D72] hover:text-white "
+                  }`}
+                >
+                  {isActive && (
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-[80%] w-1.5 bg-[#007D72] rounded-full" />
                   )}
-                </div>
-              );
-            }
 
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`relative flex items-center px-10 py-3 transition-all duration-200 group ${
-                  isActive
-                    ? "text-[#007D72] "
-                    : "text-slate-800 hover:bg-[#007D72] hover:text-white "
-                }`}
-              >
-                {isActive && (
-                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-[80%] w-1.5 bg-[#007D72] rounded-full" />
-                )}
-
-                <item.icon
-                  size={25}
-                  className={`
+                  <item.icon
+                    size={25}
+                    className={`
                       mr-2
                     ${
                       isActive
@@ -290,11 +297,11 @@ export default function SideBar() {
                         : "text-slate-500 group-hover:text-white"
                     }
                     `}
-                />
-                <span className="font-medium text-md ">{item.name}</span>
-              </Link>
-            );
-          })}
+                  />
+                  <span className="font-medium text-md ">{item.name}</span>
+                </Link>
+              );
+            })}
         </nav>
 
         <div className="p-4 my-25 m-2 rounded-2xl">
