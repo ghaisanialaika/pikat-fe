@@ -20,16 +20,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Filter, Loader2, Search } from "lucide-react";
-import api from "@/lib/axios"; // Pastikan path ini benar
+import api from "@/lib/axios";
 
-// 1. Definisikan Tipe Data sesuai Response API
 interface StudentPermit {
   id: number;
-  student: {
+  students: {
     nis: string;
     name: string;
     class: string;
-  };
+  }[];
   mapel: {
     id: number;
     username: string;
@@ -57,21 +56,19 @@ export default function ReportPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-        const response = await api.get("/student-permits");
-        setData(response.data.data || []);
+        const res = await api.get("/student-permits");
+        setData(res.data.data);
+        setLoading(false);
       } catch (error) {
-        console.error("Gagal mengambil data laporan:", error);
-      } finally {
+        console.error("Error fetching students permits:", error);
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
   const filteredData = data.filter((item) => {
-    const matchesSearch = item.student.name
+    const matchesSearch = item.students?.map((s) => s.name).join(", ")
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
 
@@ -191,6 +188,9 @@ export default function ReportPage() {
                 Mapel
               </TableHead>
               <TableHead className="font-bold text-gray-500 text-lg">
+                Piket
+              </TableHead>
+              <TableHead className="font-bold text-gray-500 text-lg">
                 Status
               </TableHead>
             </TableRow>
@@ -216,21 +216,24 @@ export default function ReportPage() {
                   <TableCell>
                     <div className="flex flex-col">
                       <span className="font-bold text-gray-700">
-                        {permit.student.name}
+                        {permit.students?.map((s) => s.name).join(", ")}
                       </span>
                       <span className="text-xs text-gray-400">
-                        {permit.student.nis}
+                        {permit.students?.map((s) => s.nis).join(", ")}
                       </span>
                     </div>
                   </TableCell>
                   <TableCell className="text-gray-600 font-medium">
-                    {permit.student.class}
+                    {permit.students?.map((s) => s.class).join(", ")}
                   </TableCell>
                   <TableCell className="text-gray-600 font-medium italic">
                     {permit.reason}
                   </TableCell>
                   <TableCell className="text-gray-600 font-medium">
                     {permit.mapel.fullname}
+                  </TableCell>
+                  <TableCell className="text-gray-600 font-medium">
+                    {permit.piket?.fullname}
                   </TableCell>
                   <TableCell>
                     <span

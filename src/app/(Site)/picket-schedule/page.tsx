@@ -1,10 +1,14 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import api from "@/lib/axios";
+import { AxiosError } from "axios";
+import { Plus } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface ScheduleItem {
   id: number;
@@ -21,17 +25,25 @@ interface GroupedSchedule {
   [key: string]: string[];
 }
 
+interface UserAuth {
+  id: number;
+  username: string;
+  fullname: string;
+  roles: string[];
+  nip: string;
+}
+
 export default function ReportPage() {
   const [scheduleData, setScheduleData] = useState<GroupedSchedule>({});
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
 
   const daysOrder = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
-
+  const [user, setUser] = useState<UserAuth>();
   useEffect(() => {
     const fetchData = async () => {
       try {
-
         const res = await api.get("/piket-schedules"); 
         const json = await res.data;
 
@@ -59,7 +71,22 @@ export default function ReportPage() {
       }
     };
 
+    const fetchUser = async () => {
+      try {
+        const res = await api.get("/auth/me");
+        setUser(res.data.data);
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          toast.error(error.response?.data.message || "Gagal mengambil data");
+        }
+      } 
+    }
+    fetchUser();
     fetchData();
+
+    if (user?.roles.includes("admin")) {
+      setIsAdmin(true);
+    }
   }, []);
 
   if (loading) {
@@ -98,10 +125,7 @@ export default function ReportPage() {
         </Card>
 
         {daysOrder.map((day) => (
-          <Card
-            key={day}
-            className="shadow-lg border-t-4 border-t-[#007D72]"
-          >
+          <Card key={day} className="shadow-lg border-t-4 border-t-[#007D72]">
             <CardHeader>
               <h2 className="text-3xl font-bold text-gray-700">{day}</h2>
             </CardHeader>
@@ -128,6 +152,16 @@ export default function ReportPage() {
             </CardContent>
           </Card>
         ))}
+        <div className="">
+          {isAdmin ? (
+            <Button className="flex items-center gap-2 text-slate-500 hover:text-[#007D72] transition-colors text-sm font-medium bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-200">
+              <Plus className="w-4 h-4" />
+              Tambah Jadwal Piket
+            </Button>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
     </div>
   );

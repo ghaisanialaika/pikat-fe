@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -11,7 +11,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { BookOpen, User, Loader2, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import api from "@/lib/axios";
 import { AxiosError } from "axios";
