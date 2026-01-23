@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -18,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import TabelIzinBaru from "@/components/TabelIzinBaru";
 import TabelTugasGuru from "@/components/TabelTugasGuru";
+import JadwalPiket from "@/components/jadwalPiket";
+import Waktu from "@/components/waktu";
 
 interface StudentPermit {
   id: number;
@@ -39,30 +39,6 @@ interface UserAuth {
   username: string;
   fullname: string;
   roles: string[];
-}
-interface Permission {
-  id: number;
-  students: {
-    nis: number;
-    name: string;
-    class: string;
-  }[];
-  mapel: {
-    id: number;
-    username: string;
-    fullname: string;
-  };
-  piket: {
-    id: number;
-    username: string;
-    fullname: string;
-  };
-  status: string;
-  reason: string;
-  hours_start: number;
-  hours_end: number;
-  created_at: string;
-  updated_at: string;
 }
 
 interface Staff {
@@ -135,11 +111,6 @@ export default function DashPage() {
       }
     }
   };
-
-  // const openDetail = async (id: number) => {
-  //   const res = await api.get(`/student-permits/${id}`);
-  //   setSelectedPermit(res.data.data);
-  // };
 
   useEffect(() => {
     if (isMapel) fetchMapelPermits();
@@ -218,54 +189,11 @@ export default function DashPage() {
         <>
           <TabelIzinBaru />
 
-          <div className="flex flex-col md:flex-row gap-5 mt-5 flex-1 min-h-0">
-            <div className="flex flex-col md:w-1/3">
-              <h2 className="md:text-xl text-md text-black/30 font-bold ml-1">
-                Petugas Piket Hari {todayName}
-              </h2>
-
-              <Card className="bg-[#FFFFFF]/90 shadow-md rounded-lg overflow-hidden h-full">
-                <CardContent className="p-5">
-                  <ScrollArea className="h-[300px] w-full pr-4">
-                    <div className="space-y-2">
-                      {todayPiketStaff.length > 0 ? (
-                        todayPiketStaff.map((staff) => (
-                          <div
-                            key={staff.id}
-                            className="bg-[#CAECE9] p-3 rounded-lg w-full flex items-center shadow-sm"
-                          >
-                            <p className="text-gray-600 font-medium text-lg drop-shadow-sm">
-                              {staff.teacher?.fullname || "Guru"}
-                            </p>
-                          </div>
-                        ))
-                      ) : (
-                        <div className="text-center text-gray-400 mt-10">
-                          {loadingData
-                            ? "Loading..."
-                            : "Tidak ada jadwal piket hari ini"}
-                        </div>
-                      )}
-                    </div>
-                  </ScrollArea>
-                </CardContent>
-              </Card>
-            </div>
+          <div className="flex flex-col md:flex-row gap-5  flex-1 min-h-0">
+            <JadwalPiket todayName={todayName} todayPiketStaff={todayPiketStaff} loadingData={loadingData} />
 
             <div className="space-y-5 flex md:flex-col flex-col md:space-y-5 flex-1 min-w-0">
-              <div className="w-full h-32 bg-[#00786E]/60 shadow-md rounded-lg p-8 flex justify-center items-center ">
-                <p className="sm:text-6xl text-4xl md:text-8xl font-bold text-white">
-                  {formattedTime}
-                </p>
-                <div className="ml-5 md:ml-10 flex flex-col">
-                  <p className="text-3xl md:text-5xl font-bold text-white">
-                    {formattedDate}
-                  </p>
-                  <p className="text-3xl md:text-5xl font-bold text-white">
-                    {formattedYear}
-                  </p>
-                </div>
-              </div>
+              <Waktu formattedTime={formattedTime} formattedDate={formattedDate} formattedYear={formattedYear} />
 
               <TabelTugasGuru />
             </div>

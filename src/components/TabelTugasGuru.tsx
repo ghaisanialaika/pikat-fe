@@ -65,18 +65,18 @@ export default function TabelTugasGuru() {
     return (
         <>
         <h2>
-        <span className="block sm:hidden text-xl font-bold text-gray-600 drop-shadow-2xl">
+        <span className="block text-xl font-bold text-gray-600 drop-shadow-2xl">
           Tugas Guru
         </span>
         </h2>
-      <div className="bg-white/90 shadow-md rounded-lg p-1 flex-1 border justify-center items-center border-white/50 overflow-hidden min-w-0 ">
+      <div className="bg-white/90 shadow-md rounded-lg p-1 flex-1 border justify-center items-center border-white/50 overflow-hidden  ">
         <ScrollArea className="w-full whitespace-nowrap h-full">
-          <div className="flex w-max space-x-4 p-2 h-full">
+          <div className="flex w-full space-x-4 p-2 h-full justify-start items-center">
             {assignments.length > 0 ? (
               assignments.map((note) => (
                 <Card
                   key={note.id}
-                  className="max-w-[300px] min-w-[225px] border-l-4 border-l-[#00786E] bg-black/5 border-y-0 border-r-0 shadow-sm hover:shadow-md justify-center items-center  transition-all whitespace-normal"
+                  className="max-w-[300px] min-w-[225px] border-l-4 border-l-[#00786E] h-full bg-black/5 border-y-0 border-r-0 shadow-sm hover:shadow-md transition-all whitespace-normal"
                 >
                   <CardContent className="p-3 flex flex-col h-full justify-between">
                     <div>
@@ -116,9 +116,9 @@ export default function TabelTugasGuru() {
                 </Card>
               ))
             ) : (
-              <div className="flex flex-col items-center justify-center w-full min-w-[300px] h-full text-gray-400">
+              <div className="flex flex-col items-center justify-center w-full h-50 text-gray-400">
                 {loadingData ? (
-                  <Loader2 className="animate-spin mb-2" />
+                  <Loader2 className="animate-spin mb-2 flex justify-center items-center" />
                 ) : (
                   <>
                     <AlertCircle className="mb-2" />

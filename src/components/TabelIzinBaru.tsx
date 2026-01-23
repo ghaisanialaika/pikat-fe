@@ -2,7 +2,6 @@
 
 import api from "@/lib/axios";
 import { AxiosError } from "axios";
-import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -13,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { SkeletonText } from "./SekeletonText";
 import {
   Dialog,
   DialogContent,
@@ -22,6 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
+import { SkeletonText } from "./sekeleton/SekeletonText";
 
 interface Permission {
   id: number;
@@ -101,7 +100,27 @@ export default function TabelIzinBaru() {
                   </TableCell>
 
                   <TableCell className="text-gray-600 font-medium text-lg">
-                    {permission.students?.map((s) => s.nis).join(", ") || "-"}
+                     <Dialog>
+                      <DialogTrigger>
+                        <p>
+                          { permission.students.length > 2 ?  permission.students[0].nis +", " + permission.students[1].nis + "   ... "   : permission.students?.map((s) => s.nis).join(", ") || "-"}
+                        </p>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Nama-nama siswa izin <br /> {formatTanggalIndo(permission.created_at)} </DialogTitle>
+                          <DialogDescription  className="flex flex-col text-md justify-start">
+                              {permission.students?.map((s, i) => (
+                                <span key={i}>-[{s.class}] {s.name}</span>
+                              ))}
+
+                              <p className="flex">
+                                dengan alasan : <strong>{permission.reason}</strong>
+                              </p>
+                          </DialogDescription>
+                        </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
                   </TableCell>
 
                   <TableCell className="text-gray-600 font-medium text-lg">
@@ -120,6 +139,10 @@ export default function TabelIzinBaru() {
                               {permission.students?.map((s, i) => (
                                 <span key={i}>-[{s.class}] {s.name}</span>
                               ))}
+
+                              <p className="flex">
+                                dengan alasan : <strong>{permission.reason}</strong>
+                              </p>
                           </DialogDescription>
                         </DialogHeader>
                       </DialogContent>
