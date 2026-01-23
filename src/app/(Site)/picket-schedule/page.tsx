@@ -1,5 +1,6 @@
 "use client";
 
+import SkeletonJadwal from "@/components/sekeleton/skeletonJadwal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -37,6 +38,7 @@ export default function ReportPage() {
   const [scheduleData, setScheduleData] = useState<GroupedSchedule>({});
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const year = new Date().getFullYear();
 
 
   const daysOrder = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat"];
@@ -51,9 +53,7 @@ export default function ReportPage() {
 
           const grouped: GroupedSchedule = {};
 
-
           daysOrder.forEach(day => grouped[day] = []);
-
 
           json.data.forEach((item: ScheduleItem) => {
             if (!grouped[item.day_name]) {
@@ -87,14 +87,15 @@ export default function ReportPage() {
     if (user?.roles.includes("admin")) {
       setIsAdmin(true);
     }
-  }, []);
+  }, [daysOrder, user?.roles]);
 
   if (loading) {
-    return <div className="p-10">Loading schedules...</div>;
+    return <div className="p-10"><SkeletonJadwal/></div>;
   }
 
+
   return (
-    <div className="bg-white/60 w-full h-full rounded-lg shadow-md p-10 space-y-2 overflow-hidden flex flex-col">
+    <div className="bg-white/60 w-full h-full rounded-lg shadow-md p-5 space-y-2 overflow-hidden flex flex-col">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
         {/* Header Card */}
         <Card className="shadow-lg bg-jadwal text-white">
@@ -116,7 +117,7 @@ export default function ReportPage() {
                 className="max-w-10"
               />
             </div>
-            <h2 className="text-6xl font-bold">JADWAL PIKET 2025</h2>
+            <h2 className="text-5xl font-bold">JADWAL PIKET {year}</h2>
             <div className="bottom-0 mt-10 text-lg font-medium ">
               <p>Hubungi +628111116 994</p>
               <p>jika ada yang ingin ditanyakan</p>
@@ -139,7 +140,7 @@ export default function ReportPage() {
                         className="bg-[#CAECE9] p-3 rounded-lg w-full flex items-center shadow-sm hover:shadow-md transition-all"
                       >
                         <div className="w-2 h-8 bg-[#007D72] rounded-full mr-3"></div>
-                        <p className="text-gray-700 font-medium text-lg drop-shadow-sm">
+                        <p className="text-gray-700 font-medium text-sm sm:text-lg drop-shadow-sm">
                           {teacherName}
                         </p>
                       </div>

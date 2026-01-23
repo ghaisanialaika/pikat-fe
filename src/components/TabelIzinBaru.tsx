@@ -70,7 +70,7 @@ export default function TabelIzinBaru() {
       <h2 className="md:text-xl text-md text-black/30 font-bold mb-2">
         Laporan Izin Terbaru
       </h2>
-      <div className="overflow-auto h-[250px] rounded-lg">
+      <div className="overflow-auto h-[250px] rounded-lg ">
         <Table className="bg-[#FFFFFF]/90 shadow-xl rounded-lg">
           <TableHeader className="sticky z-10 bg-[#FFFFFF]/90 top-0">
             <TableRow>
@@ -93,7 +93,7 @@ export default function TabelIzinBaru() {
           </TableHeader>
           <TableBody>
             {permits.length > 0 ? (
-              permits.slice(0, 5).map((permission) => (
+              permits.slice(0, 4).map((permission) => (
                 <TableRow key={permission.id}>
                   <TableCell className="text-gray-600 font-medium text-lg">
                     {formatTanggalIndo(permission.created_at)}
@@ -114,9 +114,9 @@ export default function TabelIzinBaru() {
                                 <span key={i}>-[{s.class}] {s.name}</span>
                               ))}
 
-                              <p className="flex">
+                              <span className="flex">
                                 dengan alasan : <strong>{permission.reason}</strong>
-                              </p>
+                              </span>
                           </DialogDescription>
                         </DialogHeader>
                       </DialogContent>
@@ -140,9 +140,9 @@ export default function TabelIzinBaru() {
                                 <span key={i}>-[{s.class}] {s.name}</span>
                               ))}
 
-                              <p className="flex">
+                              <span className="flex">
                                 dengan alasan : <strong>{permission.reason}</strong>
-                              </p>
+                              </span>
                           </DialogDescription>
                         </DialogHeader>
                       </DialogContent>

@@ -71,7 +71,6 @@ export default function LicensePage() {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [students, setStudents] = useState<Student[]>([]);
 
-  const [selectedPetugas, setSelectedPetugas] = useState<Teacher | null>(null);
   const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
   const [loading, setLoading] = useState(false);
@@ -245,7 +244,7 @@ export default function LicensePage() {
 
           <div>
             <Label>Nama Siswa</Label>
-            <Input value={selectedStudent?.name || ""} disabled />
+            <Input value={selectedStudent?.name || ""} disabled className="overflow-hidden" />
           </div>
 
           <div>

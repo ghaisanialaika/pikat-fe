@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   LogOut,
   Menu,
@@ -19,6 +19,8 @@ import api from "@/lib/axios";
 import Image from "next/image";
 import { ScrollArea } from "./ui/scroll-area";
 import { Button } from "./ui/button";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 interface UserAuth {
   id: number;
@@ -30,7 +32,8 @@ interface UserAuth {
 export default function SideBar() {
   const pathname = usePathname();
   const [user, setUser] = useState<UserAuth | null>(null);
-  const router = useRouter();
+
+  // const router = useRouter();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -73,9 +76,13 @@ export default function SideBar() {
   const handleLogout = async () => {
     try {
       await api.post("/auth/logout");
-    } catch (e) {}
-    localStorage.clear();
-    window.location.href = "/login";
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        toast.success(e.message);
+      }
+    }
+      localStorage.clear();
+      window.location.href = "/login";
   };
 
   const toggleSubMenu = (menuName: string) => {
@@ -115,7 +122,7 @@ export default function SideBar() {
       name: "Buat Surat Izin",
       href: "/license",
       icon: Edit,
-      roles: ["mapel", "admin"],
+      roles: ["mapel","piket", "admin"],
     },
     {
       name: "Kelola Data",
@@ -144,7 +151,7 @@ export default function SideBar() {
 
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 md:hidden backdrop-blur-sm transition-opacity"
+          className="fixed inset-0 z-40 h-400 md:hidden backdrop-blur-sm transition-opacity"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -291,8 +298,8 @@ export default function SideBar() {
             })}
         </nav>
 
-        <div className="p-4 my-25 m-2 rounded-2xl">
-          <div className="p-4 mx-3 mb-3 rounded-xl bg-white shadow-sm border">
+        <div className="p-4 my-15 m-2 rounded-2xl">
+          <div className="p-4  mb-3 rounded-xl bg-white shadow-sm border">
             {user && (
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-full bg-[#007D72]/20 flex items-center justify-center text-[#007D72] font-bold text-lg">

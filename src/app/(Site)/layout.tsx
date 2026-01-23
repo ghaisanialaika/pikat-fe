@@ -15,7 +15,7 @@ export default function RootLayout({
     <main className="flex min-h-screen bg-slate-50 bg-main">
       <SideBar />
       <section
-        className="flex-1 w-full transition-all duration-300 p-4 pt-16 md:p-8 md:ml-64 ">
+        className="flex-1 w-full transition-all duration-300 p-4 pt-16 md:p-8 md:ml-64 overflow-hidden ">
         {children}
       </section>
     </main>

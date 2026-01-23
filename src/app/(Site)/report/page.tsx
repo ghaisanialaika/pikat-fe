@@ -152,7 +152,7 @@ export default function ReportPage() {
         <Select value={timeFilter} onValueChange={setTimeFilter}>
           <SelectTrigger className="h-10 px-4 bg-[#007D72] hover:bg-[#007D72]/90 text-white w-full md:w-[200px] flex items-center justify-between rounded-lg border-none">
             <div className="flex items-center">
-              <Filter className="mr-2 h-4 w-4" />
+              <Filter className="mr-2 h-4 w-4 text-[007D72]" />
               <SelectValue placeholder="Filter Waktu" />
             </div>
           </SelectTrigger>
