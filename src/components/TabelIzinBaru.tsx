@@ -13,11 +13,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { SkeletonText } from "./SekeletonText";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 interface Permission {
   id: number;
   students: {
-    nis: string; 
+    nis: string;
     name: string;
     class: string;
   }[];
@@ -62,7 +71,7 @@ export default function TabelIzinBaru() {
       <h2 className="md:text-xl text-md text-black/30 font-bold mb-2">
         Laporan Izin Terbaru
       </h2>
-      <div className="overflow-auto max-h-[270px]">
+      <div className="overflow-auto h-[250px] rounded-lg">
         <Table className="bg-[#FFFFFF]/90 shadow-xl rounded-lg">
           <TableHeader className="sticky z-10 bg-[#FFFFFF]/90 top-0">
             <TableRow>
@@ -96,12 +105,27 @@ export default function TabelIzinBaru() {
                   </TableCell>
 
                   <TableCell className="text-gray-600 font-medium text-lg">
-                    <div className="flex flex-col">
-                      {permission.students?.map((s, i) => (
-                        <span key={i}>{s.name}</span>
-                      ))}
-                    </div>
+                    <Dialog>
+                      <DialogTrigger>
+                        <p>
+                          {permission.students.length > 1
+                            ? permission.students[0].name + "   ... "
+                            : permission.students[0].name}
+                        </p>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Nama-nama siswa izin <br /> {formatTanggalIndo(permission.created_at)} </DialogTitle>
+                          <DialogDescription  className="flex flex-col text-md justify-start">
+                              {permission.students?.map((s, i) => (
+                                <span key={i}>-[{s.class}] {s.name}</span>
+                              ))}
+                          </DialogDescription>
+                        </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
                   </TableCell>
+
                   <TableCell className="text-gray-600 font-medium text-lg">
                     {permission.students &&
                       [
@@ -119,11 +143,7 @@ export default function TabelIzinBaru() {
                   colSpan={5}
                   className="text-center h-24 text-gray-500"
                 >
-                  {loadingData ? (
-                    <Loader2 className="animate-spin mx-auto" />
-                  ) : (
-                    "Tidak ada data izin"
-                  )}
+                  {loadingData ? <SkeletonText /> : "Tidak ada data izin"}
                 </TableCell>
               </TableRow>
             )}

@@ -12,15 +12,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex min-h-screen bg-slate-50 bg-main">
+    <main className="flex min-h-screen bg-slate-50 bg-main">
       <SideBar />
-      <main
-        className="flex-1 w-full transition-all duration-300
-        p-4 pt-16 md:p-8 md:ml-64 
-      "
-      >
+      <section
+        className="flex-1 w-full transition-all duration-300 p-4 pt-16 md:p-8 md:ml-64 ">
         {children}
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }
