@@ -144,7 +144,7 @@ export default function SideBar() {
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden fixed top-4 left-4 z-60 p-2 bg-[#007D72] text-white rounded-lg shadow-lg hover:bg-blue-700 transition-all"
+        className="md:hidden fixed top-4 left-4 z-60 p-2 bg-[#007D72] text-white rounded-lg shadow-lg hover:bg-[#006058] transition-all"
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
