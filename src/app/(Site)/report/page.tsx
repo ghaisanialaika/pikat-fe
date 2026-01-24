@@ -219,6 +219,7 @@ export default function ReportPage() {
                         {permit.students?.map((s) => s.name).join(", ")}
                       </span>
                       <span className="text-xs text-gray-400">
+                        {permit.students?.length} siswa
                         {permit.students?.map((s) => s.nis).join(", ")}
                       </span>
                     </div>
