@@ -21,6 +21,14 @@ import {
 } from "@/components/ui/table";
 import { Filter, Loader2, Search } from "lucide-react";
 import api from "@/lib/axios";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { AlertDialogHeader } from "@/components/ui/alert-dialog";
 
 interface StudentPermit {
   id: number;
@@ -68,7 +76,9 @@ export default function ReportPage() {
   }, []);
 
   const filteredData = data.filter((item) => {
-    const matchesSearch = item.students?.map((s) => s.name).join(", ")
+    const matchesSearch = item.students
+      ?.map((s) => s.name)
+      .join(", ")
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
 
@@ -169,8 +179,8 @@ export default function ReportPage() {
       </div>
 
       <div className="overflow-auto rounded-lg bg-white/40 border border-white/50">
-        <Table>
-          <TableHeader className="bg-white/50 sticky top-0">
+        <Table className="bg-[#FFFFFF]/90 shadow-xl rounded-lg">
+          <TableHeader className="sticky z-10 bg-[#FFFFFF]/90 top-0">
             <TableRow>
               <TableHead className="font-bold text-gray-500 text-lg">
                 Tanggal
@@ -195,10 +205,14 @@ export default function ReportPage() {
               </TableHead>
             </TableRow>
           </TableHeader>
+
           <TableBody>
             {loading ? (
               <TableRow>
-                <TableCell colSpan={5} className="h-24 text-center">
+                <TableCell
+                  colSpan={5}
+                  className="text-gray-600 font-medium w-full h-50"
+                >
                   <div className="flex justify-center items-center gap-2 text-gray-500">
                     <Loader2 className="animate-spin" /> Memuat Data...
                   </div>
@@ -206,46 +220,63 @@ export default function ReportPage() {
               </TableRow>
             ) : filteredData.length > 0 ? (
               filteredData.map((permit) => (
-                <TableRow
-                  key={permit.id}
-                  className="hover:bg-white/60 transition-colors"
-                >
-                  <TableCell className="text-gray-600 font-medium">
-                    {formatDate(permit.created_at)}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-col">
-                      <span className="font-bold text-gray-700">
-                        {permit.students?.map((s) => s.name).join(", ")}
-                      </span>
-                      <span className="text-xs text-gray-400">
-                        {permit.students?.length} siswa
-                        {permit.students?.map((s) => s.nis).join(", ")}
-                      </span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-gray-600 font-medium">
-                    {permit.students?.map((s) => s.class).join(", ")}
-                  </TableCell>
-                  <TableCell className="text-gray-600 font-medium italic">
-                    {permit.reason}
-                  </TableCell>
-                  <TableCell className="text-gray-600 font-medium">
-                    {permit.mapel.fullname}
-                  </TableCell>
-                  <TableCell className="text-gray-600 font-medium">
-                    {permit.piket?.fullname}
-                  </TableCell>
-                  <TableCell>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-bold border ${getStatusBadge(
-                        permit.status
-                      )}`}
-                    >
-                      {formatStatus(permit.status)}
-                    </span>
-                  </TableCell>
-                </TableRow>
+                <Dialog key={permit.id}>
+                  <DialogTrigger  asChild>
+                    <TableRow className="hover:bg-white/60 transition-colors">
+                      <TableCell className="text-gray-600 font-medium">
+                        {formatDate(permit.created_at)}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-col">
+                          <span className="font-bold text-gray-700">
+                            {permit.students.length > 1
+                              ? permit.students[0].name +
+                                "   ... "
+                              : permit.students
+                                  ?.map((s) => s.name)
+                                  .join(", ") || "-"}
+                          </span>
+                          <span className="text-xs text-gray-400">
+                            {permit.students?.length} siswa
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-gray-600 font-medium">
+                        {permit.students &&
+                          [
+                            ...new Set(permit.students.map((s) => s.class)),
+                          ].join(", ")}
+                      </TableCell>
+                      <TableCell className="text-gray-600 font-medium italic">
+                        {permit.reason}
+                      </TableCell>
+                      <TableCell className="text-gray-600 font-medium">
+                        {permit.mapel.fullname}
+                      </TableCell>
+                      <TableCell className="text-gray-600 font-medium">
+                        {permit.piket?.fullname}
+                      </TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-bold border ${getStatusBadge(
+                            permit.status,
+                          )}`}
+                        >
+                          {formatStatus(permit.status)}
+                        </span>
+                      </TableCell> 
+                    </TableRow>
+                  </DialogTrigger>
+
+                  <DialogContent showCloseButton={false}>
+                    <AlertDialogHeader>
+                      <DialogTitle>No Close Button</DialogTitle>
+                      <DialogDescription>
+                        {permit.piket?.fullname}
+                      </DialogDescription>
+                    </AlertDialogHeader>
+                  </DialogContent>
+                </Dialog>
               ))
             ) : (
               <TableRow>

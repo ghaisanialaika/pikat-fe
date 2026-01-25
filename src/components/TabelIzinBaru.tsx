@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/table";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -21,6 +22,7 @@ import {
   DialogTrigger,
 } from "./ui/dialog";
 import { SkeletonText } from "./sekeleton/SekeletonText";
+import { Button } from "./ui/button";
 
 interface Permission {
   id: number;
@@ -70,7 +72,7 @@ export default function TabelIzinBaru() {
       <h2 className="md:text-xl text-md text-black/30 font-bold mb-2">
         Laporan Izin Terbaru
       </h2>
-      <div className="overflow-auto h-[250px] rounded-lg ">
+      <div className="overflow-auto rounded-lg bg-white/40 border border-white/50">
         <Table className="bg-[#FFFFFF]/90 shadow-xl rounded-lg">
           <TableHeader className="sticky z-10 bg-[#FFFFFF]/90 top-0">
             <TableRow>
@@ -94,71 +96,110 @@ export default function TabelIzinBaru() {
           <TableBody>
             {permits.length > 0 ? (
               permits.slice(0, 4).map((permission) => (
-                <TableRow key={permission.id}>
-                  <TableCell className="text-gray-600 font-medium text-lg">
-                    {formatTanggalIndo(permission.created_at)}
-                  </TableCell>
+                <Dialog key={permission.id}>
+                  <DialogTrigger asChild>
+                    <TableRow>
+                      <TableCell className="text-gray-600 font-medium text-lg">
+                        {formatTanggalIndo(permission.created_at)}
+                      </TableCell>
 
-                  <TableCell className="text-gray-600 font-medium text-lg">
-                     <Dialog>
-                      <DialogTrigger>
+                      <TableCell className="text-gray-600 font-medium text-lg">
                         <p>
-                          { permission.students.length > 2 ?  permission.students[0].nis +", " + permission.students[1].nis + "   ... "   : permission.students?.map((s) => s.nis).join(", ") || "-"}
+                          {permission.students.length > 2
+                            ? permission.students[0].nis +
+                              ", " +
+                              permission.students[1].nis +
+                              "   ... "
+                            : permission.students
+                                ?.map((s) => s.nis)
+                                .join(", ") || "-"}
                         </p>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Nama-nama siswa izin <br /> {formatTanggalIndo(permission.created_at)} </DialogTitle>
-                          <DialogDescription  className="flex flex-col text-md justify-start">
-                              {permission.students?.map((s, i) => (
-                                <span key={i}>-[{s.class}] {s.name}</span>
-                              ))}
+                      </TableCell>
 
-                              <span className="flex">
-                                dengan alasan : <strong>{permission.reason}</strong>
-                              </span>
-                          </DialogDescription>
-                        </DialogHeader>
-                      </DialogContent>
-                    </Dialog>
-                  </TableCell>
-
-                  <TableCell className="text-gray-600 font-medium text-lg">
-                    <Dialog>
-                      <DialogTrigger>
+                      <TableCell className="text-gray-600 font-medium text-lg">
                         <p>
                           {permission.students.length > 1
                             ? permission.students[0].name + "   ... "
                             : permission.students[0].name}
                         </p>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Nama-nama siswa izin <br /> {formatTanggalIndo(permission.created_at)} </DialogTitle>
-                          <DialogDescription  className="flex flex-col text-md justify-start">
-                              {permission.students?.map((s, i) => (
-                                <span key={i}>-[{s.class}] {s.name}</span>
-                              ))}
+                      </TableCell>
 
-                              <span className="flex">
-                                dengan alasan : <strong>{permission.reason}</strong>
+                      <TableCell className="text-gray-600 font-medium text-lg">
+                        {permission.students &&
+                          [
+                            ...new Set(permission.students.map((s) => s.class)),
+                          ].join(", ")}
+                      </TableCell>
+                      <TableCell className="text-gray-600 font-medium text-lg">
+                        {permission.reason}
+                      </TableCell>
+                    </TableRow>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[425px] border-l-8 border-[#00786E] p-6 bg-white rounded-xl shadow-2xl">
+                    <DialogHeader className="space-y-1">
+                      <div className="flex flex-col gap-1">
+                        <DialogTitle className="text-2xl font-extrabold text-gray-800 leading-tight">
+                          Daftar Siswa Izin
+                        </DialogTitle>
+                        <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 w-fit px-3 py-1 rounded-full">
+                          📅 {formatTanggalIndo(permission.created_at)}
+                        </span>
+                      </div>
+
+                      <div className="h-[5px] w-full bg-gray-100 " />
+
+                      <DialogDescription asChild>
+                        <div className="">
+                          <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                            Nama Siswa & Kelas
+                          </h4>
+
+                          {/* Container Daftar Siswa */}
+                          <div className="space-y-3 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
+                            {permission.students?.map((s, i) => (
+                              <div
+                                key={i}
+                                className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100 hover:bg-white hover:shadow-sm transition-all group"
+                              >
+                                <div className="shrink-0 w-8 h-8 bg-[#00786E] text-white flex items-center justify-center rounded-full text-xs font-bold">
+                                  {i + 1}
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="text-sm font-semibold text-gray-700 group-hover:text-[#00786E]">
+                                    {s.name}
+                                  </span>
+                                  <span className="text-[11px] font-medium text-gray-400">
+                                    Kelas: {s.class}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="mt-6 p-4 bg-[#00786E]/80 rounded-xl border border-amber-100">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-white text-lg">📝</span>
+                              <span className="text-xs font-bold text-white uppercase">
+                                Alasan Izin:
                               </span>
-                          </DialogDescription>
-                        </DialogHeader>
-                      </DialogContent>
-                    </Dialog>
-                  </TableCell>
+                            </div>
+                            <p className="text-sm text-white leading-relaxed font-medium italic">
+                              {permission.reason}
+                            </p>
+                          </div>
+                        </div>
+                      </DialogDescription>
+                    </DialogHeader>
 
-                  <TableCell className="text-gray-600 font-medium text-lg">
-                    {permission.students &&
-                      [
-                        ...new Set(permission.students.map((s) => s.class)),
-                      ].join(", ")}
-                  </TableCell>
-                  <TableCell className="text-gray-600 font-medium text-lg">
-                    {permission.reason}
-                  </TableCell>
-                </TableRow>
+                    <div className="mt-4 flex justify-end">
+                      <DialogClose asChild>
+                        <Button className="bg-[#00786E] hover:bg-[#005f57] text-white px-6 font-bold rounded-lg shadow-md transition-all">
+                          Selesai Membaca
+                        </Button>
+                      </DialogClose>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               ))
             ) : (
               <TableRow>
