@@ -23,12 +23,14 @@ import { Filter, Loader2, Search } from "lucide-react";
 import api from "@/lib/axios";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { AlertDialogHeader } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 interface StudentPermit {
   id: number;
@@ -134,6 +136,16 @@ export default function ReportPage() {
     }
   };
 
+  const formatTanggalIndo = (dateString: string) => {
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   const formatStatus = (status: string) => {
     return status
       .replace("_", " ")
@@ -221,7 +233,7 @@ export default function ReportPage() {
             ) : filteredData.length > 0 ? (
               filteredData.map((permit) => (
                 <Dialog key={permit.id}>
-                  <DialogTrigger  asChild>
+                  <DialogTrigger asChild>
                     <TableRow className="hover:bg-white/60 transition-colors">
                       <TableCell className="text-gray-600 font-medium">
                         {formatDate(permit.created_at)}
@@ -230,8 +242,7 @@ export default function ReportPage() {
                         <div className="flex flex-col">
                           <span className="font-bold text-gray-700">
                             {permit.students.length > 1
-                              ? permit.students[0].name +
-                                "   ... "
+                              ? permit.students[0].name + "   ... "
                               : permit.students
                                   ?.map((s) => s.name)
                                   .join(", ") || "-"}
@@ -264,17 +275,81 @@ export default function ReportPage() {
                         >
                           {formatStatus(permit.status)}
                         </span>
-                      </TableCell> 
+                      </TableCell>
                     </TableRow>
                   </DialogTrigger>
 
-                  <DialogContent showCloseButton={false}>
-                    <AlertDialogHeader>
-                      <DialogTitle>No Close Button</DialogTitle>
-                      <DialogDescription>
-                        {permit.piket?.fullname}
+                  <DialogContent
+                    showCloseButton={false}
+                    className="sm:max-w-[425px] border-l-8 border-[#00786E] p-6 bg-white rounded-xl shadow-2xl"
+                  >
+                    <DialogHeader className="space-y-1">
+                      <div className="flex flex-col gap-1">
+                        <DialogTitle className="text-2xl font-extrabold text-gray-800 leading-tight">
+                          Daftar Siswa Izin
+                        </DialogTitle>
+                        <div className="flex">
+                          <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 w-fit px-3 py-1 rounded-full">
+                            📅 {formatTanggalIndo(permit.created_at)}
+                          </span>
+                          <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 w-fit px-3 py-1 rounded-full">
+                            ⏱️ {permit.status}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="h-[5px] w-full bg-gray-100 " />
+
+                      <DialogDescription asChild>
+                        <div className="">
+                          <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                            Nama Siswa & Kelas
+                          </h4>
+
+                          {/* Container Daftar Siswa */}
+                          <div className="space-y-3 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
+                            {permit.students?.map((s, i) => (
+                              <div
+                                key={i}
+                                className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100 hover:bg-white hover:shadow-sm transition-all group"
+                              >
+                                <div className="shrink-0 w-8 h-8 bg-[#00786E] text-white flex items-center justify-center rounded-full text-xs font-bold">
+                                  {i + 1}
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="text-sm font-semibold text-gray-700 group-hover:text-[#00786E]">
+                                    {s.name}
+                                  </span>
+                                  <span className="text-[11px] font-medium text-gray-400">
+                                    Kelas: {s.class}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="mt-6 p-4 bg-[#00786E]/80 rounded-xl border border-amber-100">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-white text-lg">📝</span>
+                              <span className="text-xs font-bold text-white uppercase">
+                                Alasan Izin:
+                              </span>
+                            </div>
+                            <p className="text-sm text-white leading-relaxed font-medium italic">
+                              {permit.reason}
+                            </p>
+                          </div>
+                        </div>
                       </DialogDescription>
-                    </AlertDialogHeader>
+                    </DialogHeader>
+
+                    <div className="mt-4 flex justify-end">
+                      <DialogClose asChild>
+                        <Button className="bg-[#00786E] hover:bg-[#005f57] text-white px-6 font-bold rounded-lg shadow-md transition-all">
+                          Tutup
+                        </Button>
+                      </DialogClose>
+                    </div>
                   </DialogContent>
                 </Dialog>
               ))

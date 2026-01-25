@@ -31,9 +31,43 @@ interface Permission {
     name: string;
     class: string;
   }[];
+  mapel: {
+    id: number;
+    username: string;
+    fullname: string;
+  };
+  piket?: {
+    id: number;
+    username: string;
+    fullname: string;
+  } | null;
+  status: string;
   reason: string;
   created_at: string;
 }
+
+const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "APPROVED":
+        return "bg-green-100 text-green-700 border-green-200";
+
+      case "REJECTED":
+        return "bg-red-100 text-red-700 border-red-200";
+
+      case "PENDING_PIKET":
+        return "bg-blue-100 text-blue-700 border-blue-200";
+
+      case "APPROVED_MAPEL":
+        return "bg-emerald-100 text-emerald-700 border-emerald-200";
+
+      case "REJECTED_MAPEL":
+        return "bg-orange-100 text-orange-700 border-orange-200";
+
+      case "PENDING_MAPEL":
+      default:
+        return "bg-yellow-100 text-yellow-700 border-yellow-200";
+    }
+  };
 
 export default function TabelIzinBaru() {
   const [permits, setPermits] = useState<Permission[]>([]);
@@ -67,6 +101,13 @@ export default function TabelIzinBaru() {
     });
   };
 
+    const formatStatus = (status: string) => {
+    return status
+      .replace("_", " ")
+      .toLowerCase()
+      .replace(/\b\w/g, (l) => l.toUpperCase());
+  };
+
   return (
     <>
       <h2 className="md:text-xl text-md text-black/30 font-bold mb-2">
@@ -76,20 +117,26 @@ export default function TabelIzinBaru() {
         <Table className="bg-[#FFFFFF]/90 shadow-xl rounded-lg">
           <TableHeader className="sticky z-10 bg-[#FFFFFF]/90 top-0">
             <TableRow>
-              <TableHead className="text-gray-400 font-bold text-xl">
-                Waktu
+              <TableHead className="font-bold text-gray-500 text-lg">
+                Tanggal
               </TableHead>
-              <TableHead className="text-gray-400 font-bold text-xl">
-                NIS
+              <TableHead className="font-bold text-gray-500 text-lg">
+                Siswa
               </TableHead>
-              <TableHead className="text-gray-400 font-bold text-xl">
-                Nama
-              </TableHead>
-              <TableHead className="text-gray-400 font-bold text-xl">
+              <TableHead className="font-bold text-gray-500 text-lg">
                 Kelas
               </TableHead>
-              <TableHead className="text-gray-400 font-bold text-xl">
+              <TableHead className="font-bold text-gray-500 text-lg">
                 Alasan
+              </TableHead>
+              <TableHead className="font-bold text-gray-500 text-lg">
+                Mapel
+              </TableHead>
+              <TableHead className="font-bold text-gray-500 text-lg">
+                Piket
+              </TableHead>
+              <TableHead className="font-bold text-gray-500 text-lg">
+                Status
               </TableHead>
             </TableRow>
           </TableHeader>
@@ -98,40 +145,48 @@ export default function TabelIzinBaru() {
               permits.slice(0, 4).map((permission) => (
                 <Dialog key={permission.id}>
                   <DialogTrigger asChild>
-                    <TableRow>
-                      <TableCell className="text-gray-600 font-medium text-lg">
+                    <TableRow className="hover:bg-white/60 transition-colors">
+                      <TableCell className="text-gray-600 font-medium">
                         {formatTanggalIndo(permission.created_at)}
                       </TableCell>
 
-                      <TableCell className="text-gray-600 font-medium text-lg">
-                        <p>
-                          {permission.students.length > 2
-                            ? permission.students[0].nis +
-                              ", " +
-                              permission.students[1].nis +
-                              "   ... "
-                            : permission.students
-                                ?.map((s) => s.nis)
-                                .join(", ") || "-"}
-                        </p>
+                      <TableCell>
+                        <div className="flex flex-col">
+                          <span className="font-bold text-gray-700 text-md">
+                            {permission.students.length > 1
+                              ? permission.students[0].name + "   ... "
+                              : permission.students
+                                  ?.map((s) => s.name)
+                                  .join(", ") || "-"}
+                          </span>
+                          <span className="text-xs text-gray-400">
+                            {permission.students?.length} siswa
+                          </span>
+                        </div>
                       </TableCell>
-
-                      <TableCell className="text-gray-600 font-medium text-lg">
-                        <p>
-                          {permission.students.length > 1
-                            ? permission.students[0].name + "   ... "
-                            : permission.students[0].name}
-                        </p>
-                      </TableCell>
-
-                      <TableCell className="text-gray-600 font-medium text-lg">
+                      <TableCell className="text-gray-600 font-medium">
                         {permission.students &&
                           [
                             ...new Set(permission.students.map((s) => s.class)),
                           ].join(", ")}
                       </TableCell>
-                      <TableCell className="text-gray-600 font-medium text-lg">
+                      <TableCell className="text-gray-600 font-medium italic">
                         {permission.reason}
+                      </TableCell>
+                      <TableCell className="text-gray-600 font-medium">
+                        {permission.mapel.fullname}
+                      </TableCell>
+                      <TableCell className="text-gray-600 font-medium">
+                        {permission.piket?.fullname}
+                      </TableCell>
+                      <TableCell>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-bold border ${getStatusBadge(
+                            permission.status,
+                          )}`}
+                        >
+                          {formatStatus(permission.status)}
+                        </span>
                       </TableCell>
                     </TableRow>
                   </DialogTrigger>
@@ -194,7 +249,7 @@ export default function TabelIzinBaru() {
                     <div className="mt-4 flex justify-end">
                       <DialogClose asChild>
                         <Button className="bg-[#00786E] hover:bg-[#005f57] text-white px-6 font-bold rounded-lg shadow-md transition-all">
-                          Selesai Membaca
+                          Tutup
                         </Button>
                       </DialogClose>
                     </div>
