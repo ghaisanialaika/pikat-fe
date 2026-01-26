@@ -20,7 +20,6 @@ import JadwalPiket from "@/components/jadwalPiket";
 import Waktu from "@/components/waktu";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogTitle,
@@ -400,8 +399,8 @@ export default function DashPage() {
                             </div>
 
                             {loading ? (
-                              <div className="h-10 bg-[#005f57]/80 hover:bg-[#005f57] rounded-md text-white">
-                                <Loader2 className="animate-spin" />
+                              <div className="h-15 flex justify-center items-center  rounded-md text-white">
+                                <Loader2 className="animate-spin text-black" />
                               </div>
                             ) : (
                               <div className="flex w-full justify-between mt-2 ">

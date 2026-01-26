@@ -288,12 +288,12 @@ export default function ReportPage() {
                         <DialogTitle className="text-2xl font-extrabold text-gray-800 leading-tight">
                           Daftar Siswa Izin
                         </DialogTitle>
-                        <div className="flex">
+                        <div className="flex justify-between px-2">
                           <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 w-fit px-3 py-1 rounded-full">
-                            📅 {formatTanggalIndo(permit.created_at)}
+                            {formatTanggalIndo(permit.created_at)}
                           </span>
                           <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 w-fit px-3 py-1 rounded-full">
-                            ⏱️ {permit.status}
+                            {permit.status}
                           </span>
                         </div>
                       </div>
