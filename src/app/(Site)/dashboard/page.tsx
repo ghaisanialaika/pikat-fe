@@ -121,6 +121,7 @@ export default function DashPage() {
   const isAdmin = user?.roles?.includes("admin");
   const isPiket = user?.roles?.includes("piket");
   const isMapel = user?.roles?.includes("mapel");
+  const isSatpam = user?.roles?.includes("satpam");
 
   const [loadingData, setLoadingData] = useState(true);
   const [time, setTime] = useState(new Date());
@@ -429,7 +430,7 @@ export default function DashPage() {
                         </DialogDescription>
                       </AlertDialogHeader>
 
-                        {/* <div className="mt-4 flex justify-end">
+                      {/* <div className="mt-4 flex justify-end">
                           <DialogClose asChild>
                             <Button className="bg-[#00786E] hover:bg-[#005f57] text-white px-6 font-bold rounded-lg shadow-md transition-all">
                               Tutup
@@ -457,6 +458,15 @@ export default function DashPage() {
               Tidak ada izin pending
             </p>
           )}
+        </div>
+      )}
+
+      {isSatpam && (
+        <div>
+          <h2 className="text-2xl font-bold text-gray-600 drop-shadow-2xl mb-5">
+            Antrian Surat Izin (Mapel)
+          </h2>
+          
         </div>
       )}
     </div>

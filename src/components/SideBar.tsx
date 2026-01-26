@@ -98,7 +98,7 @@ export default function SideBar() {
       name: "Dashboard",
       href: "/dashboard",
       icon: Home,
-      roles: ["admin", "piket", "mapel"],
+      roles: ["admin", "piket", "mapel", "satpam"],
     },
     {
       name: "Laporan Izin",
