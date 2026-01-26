@@ -116,13 +116,13 @@ export default function SideBar() {
       name: "Jadwal Piket",
       href: "/picket-schedule",
       icon: Clock,
-      roles: ["piket", "admin"],
+      roles: ["piket", "admin"] ,
     },
     {
       name: "Buat Surat Izin",
       href: "/license",
       icon: Edit,
-      roles: ["mapel","piket", "admin"],
+      roles: ["piket", "admin"],
     },
     {
       name: "Kelola Data",

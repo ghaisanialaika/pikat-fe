@@ -69,6 +69,7 @@ const getStatusBadge = (status: string) => {
     }
   };
 
+
 export default function TabelIzinBaru() {
   const [permits, setPermits] = useState<Permission[]>([]);
   const [loadingData, setLoadingData] = useState(true);
