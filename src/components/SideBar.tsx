@@ -14,6 +14,7 @@ import {
   Eye,
   ChevronDown, 
   ChevronUp,
+  BookAlertIcon,
 } from "lucide-react";
 import api from "@/lib/axios";
 import Image from "next/image";
@@ -137,6 +138,12 @@ export default function SideBar() {
       icon: Eye,
       roles: ["admin"],
     },
+    {
+      name: "Tugas",
+      href: "/task",
+      icon: BookAlertIcon,
+      roles: ["admin", "mapel"],
+    }
   ];
 
 
