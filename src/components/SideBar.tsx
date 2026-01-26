@@ -130,8 +130,13 @@ export default function SideBar() {
       href: "/view-data",
       subLinks: [
         {
-          name: "Data Guru Mapel",
+          name: "Data Guru",
           href: "/view-data/teacher-data",
+          roles: ["admin"],
+        },
+        {
+          name: "Data Mapel",
+          href: "/view-data/mapel-data",
           roles: ["admin"],
         },
       ],

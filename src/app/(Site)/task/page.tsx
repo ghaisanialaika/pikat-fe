@@ -8,6 +8,7 @@ import {
   BatteryWarning,
   BookOpen,
   Loader2,
+  School,
   User,
 } from "lucide-react"; // Untuk indikator loading
 import { Dialog, DialogTitle } from "@radix-ui/react-dialog";
@@ -230,10 +231,17 @@ export default function Task() {
   };
 
   return (
+    <>
+    
+      <div className="-mb-5 ml-3">
+        <h1 className="text-2xl font-bold text-gray-700 flex items-center gap-3">
+          <div className="p-2 bg-[#007D72]/10 rounded-lg">
+            <School className="text-[#007D72]" size={32} />
+          </div>
+          Surat Izin
+        </h1>
+      </div>
     <div className="bg-white/60 w-full h-full rounded-lg shadow-md pt-5 flex flex-col">
-      <h1 className="text-4xl px-6 font-bold text-gray-600 drop-shadow-2xl">
-        Tugas
-      </h1>
 
       <div className="p-2">
         <div className="">
@@ -454,5 +462,6 @@ export default function Task() {
         </div>
       </div>
     </div>
+    </>
   );
 }

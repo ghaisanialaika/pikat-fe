@@ -105,8 +105,8 @@ export default function TabelTugasGuru() {
           Tugas Guru
         </span>
       </h2>
-      <div className="bg-white/90 shadow-md rounded-lg p-1 flex-1 border justify-center items-center border-white/50 overflow-hidden  ">
-        <ScrollArea className="w-full whitespace-nowrap h-full">
+      <div className="bg-white/90 shadow-md rounded-lg p-3.5 border justify-center items-center border-white/50 overflow-hidden  ">
+        <ScrollArea className="w-full whitespace-nowrap h-full  ">
           <div className="flex w-full space-x-4 p-2 h-60 justify-start items-center">
             {assignments.length > 0 ? (
               assignments.map((note) => (

@@ -22,9 +22,9 @@ export default function JadwalPiket({todayName, todayPiketStaff, loadingData} : 
         Petugas Piket Hari {todayName}
       </h2>
 
-      <Card className="bg-[#FFFFFF]/90 shadow-md rounded-lg overflow-hidden h-full">
-        <CardContent className="p-5">
-          <ScrollArea className="h-[300px] w-full pr-4">
+      <Card className="bg-[#FFFFFF]/90 shadow-md rounded-lg overflow-hidden h-110">
+        <CardContent className="p-3">
+          <ScrollArea className="h-[300px] w-full">
             <div className="space-y-2">
               {todayPiketStaff.length > 0 ? (
                 todayPiketStaff.map((staff) => (

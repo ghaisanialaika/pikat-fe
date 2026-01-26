@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/dialog";
 import { AlertDialogHeader } from "@/components/ui/alert-dialog";
 import { SkeletonText } from "@/components/sekeleton/SekeletonText";
-import { Loader2 } from "lucide-react";
+import { Loader2, School } from "lucide-react";
 
 interface StudentPermit {
   id: number;
@@ -237,238 +237,247 @@ export default function DashPage() {
   });
 
   return (
-    <div className="bg-white/60 w-full h-full rounded-lg shadow-md p-5 space-y-2 flex flex-col">
-      {(isAdmin || isPiket) && (
-        <>
-          <h1 className="text-4xl font-bold text-gray-600 drop-shadow-2xl">
-            Dashboard
-            {user && (
-              <span>
-                {" "}
-                {user.fullname}{" "}
-                <span className="text-sm text-gray-400">
-                  ({user.roles.join(", ")})
+    <>
+      <div className="-mb-5 ml-3">
+        <h1 className="text-3xl font-bold text-gray-700 flex items-center gap-3">
+          <div className="p-2 bg-[#007D72]/10 rounded-lg">
+            <School className="text-[#007D72]" size={32} />
+          </div>
+          Dashboard
+        </h1>
+      </div>
+      <div className="bg-white/60 w-full  rounded-lg shadow-md p-5 space-y-2 flex flex-col">
+        {(isAdmin || isPiket) && (
+          <>
+            {/* <h1 className="text-4xl font-bold text-gray-600 drop-shadow-2xl">
+              Dashboard
+              {user && (
+                <span>
+                  {" "}
+                  {user.fullname}{" "}
+                  <span className="text-sm text-gray-400">
+                    ({user.roles.join(", ")})
+                  </span>
                 </span>
-              </span>
-            )}
-          </h1>
-          <TabelIzinBaru />
+              )}
+            </h1> */}
+            <TabelIzinBaru />
 
-          <div className="flex flex-col md:flex-row gap-5  flex-1 min-h-0">
-            <JadwalPiket
-              todayName={todayName}
-              todayPiketStaff={todayPiketStaff}
-              loadingData={loadingData}
-            />
-
-            <div className="space-y-5 flex md:flex-col flex-col md:space-y-5 flex-1 min-w-0">
-              <Waktu
-                formattedTime={formattedTime}
-                formattedDate={formattedDate}
-                formattedYear={formattedYear}
+            <div className="flex flex-col md:flex-row gap-5  flex-1 min-h-0">
+              <JadwalPiket
+                todayName={todayName}
+                todayPiketStaff={todayPiketStaff}
+                loadingData={loadingData}
               />
 
-              <TabelTugasGuru />
+              <div className="space-y-5 flex md:flex-col flex-col md:space-y-5 flex-1 min-w-0">
+                <Waktu
+                  formattedTime={formattedTime}
+                  formattedDate={formattedDate}
+                  formattedYear={formattedYear}
+                />
+
+                <TabelTugasGuru />
+              </div>
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
 
-      {isMapel && (
-        <div>
-          <h2 className="text-2xl font-bold text-gray-600 drop-shadow-2xl mb-5">
-            Antrian Surat Izin (Mapel)
-          </h2>
+        {isMapel && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-600 drop-shadow-2xl mb-5">
+              Antrian Surat Izin (Mapel)
+            </h2>
 
-          <Table className="bg-[#FFFFFF]/90 shadow-xl rounded-lg">
-            <TableHeader className="sticky z-10 bg-[#FFFFFF]/90 top-0">
-              <TableRow>
-                <TableHead className="font-bold text-gray-500 text-lg">
-                  Nama
-                </TableHead>
-                <TableHead className="font-bold text-gray-500 text-lg">
-                  Kelas
-                </TableHead>
-                <TableHead className="font-bold text-gray-500 text-lg">
-                  Alasan
-                </TableHead>
-                <TableHead className="font-bold text-gray-500 text-lg">
-                  Status
-                </TableHead>
-                <TableHead className="font-bold text-gray-500 text-lg">
-                  Aksi
-                </TableHead>
-              </TableRow>
-            </TableHeader>
+            <Table className="bg-[#FFFFFF]/90 shadow-xl rounded-lg">
+              <TableHeader className="sticky z-10 bg-[#FFFFFF]/90 top-0">
+                <TableRow>
+                  <TableHead className="font-bold text-gray-500 text-lg">
+                    Nama
+                  </TableHead>
+                  <TableHead className="font-bold text-gray-500 text-lg">
+                    Kelas
+                  </TableHead>
+                  <TableHead className="font-bold text-gray-500 text-lg">
+                    Alasan
+                  </TableHead>
+                  <TableHead className="font-bold text-gray-500 text-lg">
+                    Status
+                  </TableHead>
+                  <TableHead className="font-bold text-gray-500 text-lg">
+                    Aksi
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
 
-            <TableBody>
-              {permits.length > 0 ? (
-                permits.slice(0, 4).map((permission) => (
-                  <Dialog key={permission.id}>
-                    <DialogTrigger asChild>
-                      <TableRow className="hover:bg-white/60 transition-colors">
-                        <TableCell>
-                          <div className="flex flex-col">
-                            <span className="font-bold text-gray-700 text-md">
-                              {permission.students.length > 1
-                                ? permission.students[0].name + "   ... "
-                                : permission.students
-                                    ?.map((s) => s.name)
-                                    .join(", ") || "-"}
+              <TableBody>
+                {permits.length > 0 ? (
+                  permits.slice(0, 4).map((permission) => (
+                    <Dialog key={permission.id}>
+                      <DialogTrigger asChild>
+                        <TableRow className="hover:bg-white/60 transition-colors">
+                          <TableCell>
+                            <div className="flex flex-col">
+                              <span className="font-bold text-gray-700 text-md">
+                                {permission.students.length > 1
+                                  ? permission.students[0].name + "   ... "
+                                  : permission.students
+                                      ?.map((s) => s.name)
+                                      .join(", ") || "-"}
+                              </span>
+                              <span className="text-xs text-gray-400">
+                                {permission.students?.length} siswa
+                              </span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-gray-600 font-medium">
+                            {permission.students &&
+                              [
+                                ...new Set(
+                                  permission.students.map((s) => s.class),
+                                ),
+                              ].join(", ")}
+                          </TableCell>
+                          <TableCell className="text-gray-600 font-medium italic">
+                            {permission.reason}
+                          </TableCell>
+                          <TableCell className="text-gray-600 font-medium">
+                            {permission.mapel.fullname}
+                          </TableCell>
+                          <TableCell>
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-bold border ${getStatusBadge(
+                                permission.status,
+                              )}`}
+                            >
+                              {formatStatus(permission.status)}
                             </span>
-                            <span className="text-xs text-gray-400">
-                              {permission.students?.length} siswa
+                          </TableCell>
+                        </TableRow>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[425px] border-l-8 border-[#00786E] p-2 sm:p-6 bg-white rounded-xl shadow-2xl">
+                        <AlertDialogHeader className="space-y-1">
+                          <div className="flex flex-col items-center gap-1">
+                            <DialogTitle className="text-2xl font-extrabold text-gray-800 leading-tight">
+                              Daftar Siswa Izin
+                            </DialogTitle>
+                            <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 w-fit px-3 py-1 rounded-full">
+                              📅 {formatTanggalIndo(permission.created_at)}
                             </span>
                           </div>
-                        </TableCell>
-                        <TableCell className="text-gray-600 font-medium">
-                          {permission.students &&
-                            [
-                              ...new Set(
-                                permission.students.map((s) => s.class),
-                              ),
-                            ].join(", ")}
-                        </TableCell>
-                        <TableCell className="text-gray-600 font-medium italic">
-                          {permission.reason}
-                        </TableCell>
-                        <TableCell className="text-gray-600 font-medium">
-                          {permission.mapel.fullname}
-                        </TableCell>
-                        <TableCell>
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs font-bold border ${getStatusBadge(
-                              permission.status,
-                            )}`}
-                          >
-                            {formatStatus(permission.status)}
-                          </span>
-                        </TableCell>
-                      </TableRow>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px] border-l-8 border-[#00786E] p-2 sm:p-6 bg-white rounded-xl shadow-2xl">
-                      <AlertDialogHeader className="space-y-1">
-                        <div className="flex flex-col items-center gap-1">
-                          <DialogTitle className="text-2xl font-extrabold text-gray-800 leading-tight">
-                            Daftar Siswa Izin
-                          </DialogTitle>
-                          <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 w-fit px-3 py-1 rounded-full">
-                            📅 {formatTanggalIndo(permission.created_at)}
-                          </span>
-                        </div>
 
-                        <div className="h-[5px] w-full bg-gray-100 " />
+                          <div className="h-[5px] w-full bg-gray-100 " />
 
-                        <DialogDescription asChild>
-                          <div className="">
-                            <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-                              Nama Siswa & Kelas
-                            </h4>
+                          <DialogDescription asChild>
+                            <div className="">
+                              <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                                Nama Siswa & Kelas
+                              </h4>
 
-                            {/* Container Daftar Siswa */}
-                            <div className="space-y-3 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
-                              {permission.students?.map((s, i) => (
-                                <div
-                                  key={i}
-                                  className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100 hover:bg-white hover:shadow-sm transition-all group"
-                                >
-                                  <div className="shrink-0 w-8 h-8 bg-[#00786E] text-white flex items-center justify-center rounded-full text-xs font-bold">
-                                    {i + 1}
+                              {/* Container Daftar Siswa */}
+                              <div className="space-y-3 max-h-[200px] overflow-y-auto pr-2 custom-scrollbar">
+                                {permission.students?.map((s, i) => (
+                                  <div
+                                    key={i}
+                                    className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100 hover:bg-white hover:shadow-sm transition-all group"
+                                  >
+                                    <div className="shrink-0 w-8 h-8 bg-[#00786E] text-white flex items-center justify-center rounded-full text-xs font-bold">
+                                      {i + 1}
+                                    </div>
+                                    <div className="flex flex-col">
+                                      <span className="text-sm font-semibold text-gray-700 group-hover:text-[#00786E]">
+                                        {s.name}
+                                      </span>
+                                      <span className="text-[11px] font-medium text-gray-400">
+                                        Kelas: {s.class}
+                                      </span>
+                                    </div>
                                   </div>
-                                  <div className="flex flex-col">
-                                    <span className="text-sm font-semibold text-gray-700 group-hover:text-[#00786E]">
-                                      {s.name}
-                                    </span>
-                                    <span className="text-[11px] font-medium text-gray-400">
-                                      Kelas: {s.class}
-                                    </span>
-                                  </div>
+                                ))}
+                              </div>
+
+                              <div className="mt-6 p-4 bg-[#00786E]/80 rounded-xl border border-amber-100">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <span className="text-white text-lg">📝</span>
+                                  <span className="text-xs font-bold text-white uppercase">
+                                    Alasan Izin:
+                                  </span>
                                 </div>
-                              ))}
+                                <p className="text-sm text-white leading-relaxed font-medium italic">
+                                  {permission.reason}
+                                </p>
+                              </div>
+
+                              {loading ? (
+                                <div className="h-15 flex justify-center items-center  rounded-md text-white">
+                                  <Loader2 className="animate-spin text-black" />
+                                </div>
+                              ) : (
+                                <div className="flex w-full justify-between mt-2 ">
+                                  <Button
+                                    className="h-10 bg-[#005f57]/80 hover:bg-[#005f57] rounded-md text-white"
+                                    onClick={() =>
+                                      processPermit(
+                                        permission.id,
+                                        "PENDING_PIKET",
+                                      )
+                                    }
+                                  >
+                                    TERIMA
+                                  </Button>
+                                  <Button
+                                    className="h-10 bg-[#005f57]/80 hover:bg-[#005f57] rounded-md text-white"
+                                    onClick={() =>
+                                      processPermit(permission.id, "REJECTED")
+                                    }
+                                  >
+                                    TOLAK
+                                  </Button>
+                                </div>
+                              )}
                             </div>
+                          </DialogDescription>
+                        </AlertDialogHeader>
 
-                            <div className="mt-6 p-4 bg-[#00786E]/80 rounded-xl border border-amber-100">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="text-white text-lg">📝</span>
-                                <span className="text-xs font-bold text-white uppercase">
-                                  Alasan Izin:
-                                </span>
-                              </div>
-                              <p className="text-sm text-white leading-relaxed font-medium italic">
-                                {permission.reason}
-                              </p>
-                            </div>
-
-                            {loading ? (
-                              <div className="h-15 flex justify-center items-center  rounded-md text-white">
-                                <Loader2 className="animate-spin text-black" />
-                              </div>
-                            ) : (
-                              <div className="flex w-full justify-between mt-2 ">
-                                <Button
-                                  className="h-10 bg-[#005f57]/80 hover:bg-[#005f57] rounded-md text-white"
-                                  onClick={() =>
-                                    processPermit(
-                                      permission.id,
-                                      "PENDING_PIKET",
-                                    )
-                                  }
-                                >
-                                  TERIMA
-                                </Button>
-                                <Button
-                                  className="h-10 bg-[#005f57]/80 hover:bg-[#005f57] rounded-md text-white"
-                                  onClick={() =>
-                                    processPermit(permission.id, "REJECTED")
-                                  }
-                                >
-                                  TOLAK
-                                </Button>
-                              </div>
-                            )}
-                          </div>
-                        </DialogDescription>
-                      </AlertDialogHeader>
-
-                      {/* <div className="mt-4 flex justify-end">
+                        {/* <div className="mt-4 flex justify-end">
                           <DialogClose asChild>
                             <Button className="bg-[#00786E] hover:bg-[#005f57] text-white px-6 font-bold rounded-lg shadow-md transition-all">
                               Tutup
                             </Button>
                           </DialogClose>
                         </div> */}
-                    </DialogContent>
-                  </Dialog>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={5}
-                    className="text-center h-24 text-gray-500"
-                  >
-                    {loadingData ? <SkeletonText /> : "Tidak ada data izin"}
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                      </DialogContent>
+                    </Dialog>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={5}
+                      className="text-center h-24 text-gray-500"
+                    >
+                      {loadingData ? <SkeletonText /> : "Tidak ada data izin"}
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
 
-          {!loading && permits.length === 0 && (
-            <p className="text-center text-gray-400 mt-5">
-              Tidak ada izin pending
-            </p>
-          )}
-        </div>
-      )}
+            {!loading && permits.length === 0 && (
+              <p className="text-center text-gray-400 mt-5">
+                Tidak ada izin pending
+              </p>
+            )}
+          </div>
+        )}
 
-      {isSatpam && (
-        <div>
-          <h2 className="text-2xl font-bold text-gray-600 drop-shadow-2xl mb-5">
-            Antrian Surat Izin (Mapel)
-          </h2>
-          
-        </div>
-      )}
-    </div>
+        {isSatpam && (
+          <div>
+            <h2 className="text-2xl font-bold text-gray-600 drop-shadow-2xl mb-5">
+              Antrian Surat Izin (Mapel)
+            </h2>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
