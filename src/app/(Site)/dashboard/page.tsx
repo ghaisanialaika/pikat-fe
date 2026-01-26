@@ -312,7 +312,7 @@ export default function DashPage() {
 
               <TableBody>
                 {permits.length > 0 ? (
-                  permits.slice(0, 4).map((permission) => (
+                  permits.map((permission) => (
                     <Dialog key={permission.id}>
                       <DialogTrigger asChild>
                         <TableRow className="hover:bg-white/60 transition-colors">
@@ -355,18 +355,18 @@ export default function DashPage() {
                           </TableCell>
                         </TableRow>
                       </DialogTrigger>
-                      <DialogContent className="sm:max-w-[425px] border-l-8 border-[#00786E] p-2 sm:p-6 bg-white rounded-xl shadow-2xl">
-                        <AlertDialogHeader className="space-y-1">
+                      <DialogContent className="p-5 overflow-hidden w-full border-l-8 border-[#00786E] bg-white rounded-xl shadow-2xl"> 
+                        <AlertDialogHeader className="space-y-1 w-full">
                           <div className="flex flex-col items-center gap-1">
                             <DialogTitle className="text-2xl font-extrabold text-gray-800 leading-tight">
                               Daftar Siswa Izin
                             </DialogTitle>
-                            <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 w-fit px-3 py-1 rounded-full">
+                            <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 rounded-full">
                               📅 {formatTanggalIndo(permission.created_at)}
                             </span>
                           </div>
 
-                          <div className="h-[5px] w-full bg-gray-100 " />
+                          <div className="h-[5px] w-full bg-gray-400 mx-4 " />
 
                           <DialogDescription asChild>
                             <div className="">

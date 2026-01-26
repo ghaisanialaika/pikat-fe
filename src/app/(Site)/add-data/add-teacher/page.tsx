@@ -16,18 +16,18 @@ import Link from "next/link";
 
 export default function AddTeacherPage() {
   const [loading, setLoading] = useState(false);
+//   const []
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulasi submit
     setTimeout(() => setLoading(false), 2000);
   };
 
   return (
     <div className="w-full h-full space-y-6 flex flex-col">
       
-      {/* --- HEADER --- */}
+      
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold text-gray-700 flex items-center gap-3">
@@ -41,33 +41,31 @@ export default function AddTeacherPage() {
           </p>
         </div>
 
-        <Link 
-            href="/dashboard"
+        <Link
+            href="/view-data/teacher-data"
             className="flex items-center gap-2 text-slate-500 hover:text-[#007D72] transition-colors text-sm font-medium bg-white px-4 py-2 rounded-lg shadow-sm border border-slate-200"
         >
             <ArrowLeft size={16} /> Kembali
         </Link>
       </div>
 
-      {/* --- FORM CARD --- */}
+      
       <div className="bg-white/80 backdrop-blur-sm border border-white/50 shadow-lg rounded-2xl overflow-hidden flex-1">
         <div className="p-8">
             <form onSubmit={handleSubmit} className="space-y-8">
                 
-                {/* Bagian 1: Informasi Pribadi */}
                 <div>
                     <h3 className="text-[#007D72] font-bold text-lg border-b border-[#007D72]/20 pb-2 mb-4 flex items-center gap-2">
                         <User size={18}/> Informasi Pribadi
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         
-                        {/* NIP */}
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-gray-600">NIP / NUPTK</label>
                             <div className="relative">
                                 <Badge className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                                 <input 
-                                    type="number" 
+                                    type="number"
                                     placeholder="Contoh: 19800101..." 
                                     className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#007D72]/50 focus:border-[#007D72] transition-all"
                                     required

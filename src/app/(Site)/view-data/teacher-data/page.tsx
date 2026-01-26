@@ -53,7 +53,7 @@ export default function TeacherPage() {
 
       setUsers(response.data.data || []);
       if (response.data.meta) {
-        setTotalPages(response.data.meta.last_page || 1);
+        setTotalPages(response.data.meta.totalPages || 1);
         setTotalData(response.data.meta.totalItems || 0);
       }
     } catch (error) {
