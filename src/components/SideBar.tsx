@@ -319,7 +319,7 @@ export default function SideBar() {
                 </div>
 
                 <div className="flex flex-col leading-tight">
-                  <span className="font-bold text-gray-800">
+                  <span className="font-bold text-sm text-gray-800">
                     {user.fullname || user.username}
                   </span>
 

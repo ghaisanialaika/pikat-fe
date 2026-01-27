@@ -64,7 +64,6 @@ export default function ReportPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [open, setOpen] = useState(false);
   
-  // Form State
   const [selectedTeacher, setSelectedTeacher] = useState<string>("");
   const [selectedDay, setSelectedDay] = useState<string>("");
 
@@ -201,8 +200,8 @@ export default function ReportPage() {
         <div className="flex items-center justify-center border-2 border-dashed border-slate-200 rounded-xl h-20">
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
-                <Button className="flex items-center gap-2 text-slate-500 hover:text-[#007D72] hover:border-[#007D72] transition-all text-sm font-medium bg-white px-6 py-10 rounded-lg shadow-sm border border-slate-200 h-full w-full group">
-                  <div className="bg-slate-50 group-hover:bg-[#CAECE9] p-3 rounded-full transition-colors">
+                <Button className="flex items-center gap-2 text-slate-500 hover:text-[#007D72] hover:border-[#007D72] hover:bg-[#CAECE9] transition-all text-sm font-medium bg-white px-6 py-10 rounded-lg shadow-sm border border-slate-200 h-full w-full group">
+                  <div className="bg-slate-50 group-hover:bg-white p-3 rounded-full transition-colors">
                     <Plus className="w-6 h-6" />
                   </div>
                   Tambah Jadwal Piket

@@ -38,7 +38,7 @@ interface User {
   username: string;
   fullname: string;
   nip: string | null;
-  roles?: string[]; // Menampung role setelah di-fetch
+  roles?: string[];
 }
 
 interface Teacher {
@@ -74,17 +74,15 @@ export default function LicensePage() {
   const fetchData = useCallback(async () => {
     setLoadingInitial(true);
     try {
-      // 1. Ambil data Siswa, Guru Mapel, dan User yang sedang login secara paralel
       const [studentRes, teacherRes, authRes] = await Promise.all([
         api.get("/students?limit=10000"),
         api.get("/users/mapel"),
-        api.get("/auth/me"), // Ambil data user login
+        api.get("/auth/me"),
       ]);
 
       setStudents(studentRes.data.data);
       setTeachers(teacherRes.data.data);
 
-      // 2. Set petugas otomatis dari user yang login
       const currentUser = authRes.data.data;
       setSelectedOfficer(currentUser);
     } catch (error) {

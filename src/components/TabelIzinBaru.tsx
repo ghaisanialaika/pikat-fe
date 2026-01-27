@@ -47,28 +47,27 @@ interface Permission {
 }
 
 const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "APPROVED":
-        return "bg-green-100 text-green-700 border-green-200";
+  switch (status) {
+    case "APPROVED":
+      return "bg-green-100 text-green-700 border-green-200";
 
-      case "REJECTED":
-        return "bg-red-100 text-red-700 border-red-200";
+    case "REJECTED":
+      return "bg-red-100 text-red-700 border-red-200";
 
-      case "PENDING_PIKET":
-        return "bg-blue-100 text-blue-700 border-blue-200";
+    case "PENDING_PIKET":
+      return "bg-blue-100 text-blue-700 border-blue-200";
 
-      case "APPROVED_MAPEL":
-        return "bg-emerald-100 text-emerald-700 border-emerald-200";
+    case "APPROVED_MAPEL":
+      return "bg-emerald-100 text-emerald-700 border-emerald-200";
 
-      case "REJECTED_MAPEL":
-        return "bg-orange-100 text-orange-700 border-orange-200";
+    case "REJECTED_MAPEL":
+      return "bg-orange-100 text-orange-700 border-orange-200";
 
-      case "PENDING_MAPEL":
-      default:
-        return "bg-yellow-100 text-yellow-700 border-yellow-200";
-    }
-  };
-
+    case "PENDING_MAPEL":
+    default:
+      return "bg-yellow-100 text-yellow-700 border-yellow-200";
+  }
+};
 
 export default function TabelIzinBaru() {
   const [permits, setPermits] = useState<Permission[]>([]);
@@ -102,7 +101,7 @@ export default function TabelIzinBaru() {
     });
   };
 
-    const formatStatus = (status: string) => {
+  const formatStatus = (status: string) => {
     return status
       .replace("_", " ")
       .toLowerCase()
@@ -197,8 +196,17 @@ export default function TabelIzinBaru() {
                         <DialogTitle className="text-2xl font-extrabold text-gray-800 leading-tight">
                           Daftar Siswa Izin
                         </DialogTitle>
-                        <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 w-fit px-3 py-1 rounded-full">
-                          📅 {formatTanggalIndo(permission.created_at)}
+                        <span className="flex gap-2">
+                          <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 w-fit px-3 py-1 rounded-full">
+                            📅 {formatTanggalIndo(permission.created_at)}
+                          </span>
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-bold border ${getStatusBadge(
+                              permission.status,
+                            )}`}
+                          >
+                            {formatStatus(permission.status)}
+                          </span>
                         </span>
                       </div>
 

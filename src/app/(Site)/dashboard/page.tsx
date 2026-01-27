@@ -194,18 +194,19 @@ export default function DashPage() {
     const fetchDashboardData = async () => {
       setLoadingData(true);
       try {
+        // 1. Ambil data user
         const authRes = await api.get("/auth/me", {
           withCredentials: true,
         });
-        setUser(authRes.data.data);
-        const [piketRes] = await Promise.allSettled([
-          api.get("/piket-schedules"),
-        ]);
-        if (piketRes.status === "fulfilled")
-          setPiketStaff(piketRes.value.data.data || []);
+        const userData = authRes.data.data;
+        setUser(userData);
+        const piketRes = await api.get("/piket-schedules", {
+          withCredentials: true,
+        });
+        setPiketStaff(piketRes.data.data || []);
+        console.log(piketRes.data.data);
       } catch (error) {
         if (error instanceof AxiosError && error.response?.status === 401) {
-          console.warn("Unauthorized, redirecting to login");
           router.replace("/login");
         }
       } finally {
@@ -239,11 +240,15 @@ export default function DashPage() {
   return (
     <>
       <div className="-mb-5 ml-3">
-        <h1 className="text-3xl font-bold text-gray-700 flex items-center gap-3">
+        <h1 className=" font-bold text-gray-700 flex items-center gap-3">
           <div className="p-2 bg-[#007D72]/10 rounded-lg">
             <School className="text-[#007D72]" size={32} />
           </div>
-          Dashboard
+          {!isAdmin && !isPiket && !isMapel && !isSatpam ? (
+            <p className="text-3xl">Dashboard</p>
+          ) : (
+            <p className="text-xl">Antrian Surat Izin (Mapel) </p>
+          )}
         </h1>
       </div>
       <div className="bg-white/60 w-full  rounded-lg shadow-md p-5 space-y-2 flex flex-col">
@@ -285,10 +290,6 @@ export default function DashPage() {
 
         {isMapel && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-600 drop-shadow-2xl mb-5">
-              Antrian Surat Izin (Mapel)
-            </h2>
-
             <Table className="bg-[#FFFFFF]/90 shadow-xl rounded-lg">
               <TableHeader className="sticky z-10 bg-[#FFFFFF]/90 top-0">
                 <TableRow>
@@ -355,7 +356,7 @@ export default function DashPage() {
                           </TableCell>
                         </TableRow>
                       </DialogTrigger>
-                      <DialogContent className="p-5 overflow-hidden w-full border-l-8 border-[#00786E] bg-white rounded-xl shadow-2xl"> 
+                      <DialogContent className="p-5 overflow-hidden w-full border-l-8 border-[#00786E] bg-white rounded-xl shadow-2xl">
                         <AlertDialogHeader className="space-y-1 w-full">
                           <div className="flex flex-col items-center gap-1">
                             <DialogTitle className="text-2xl font-extrabold text-gray-800 leading-tight">
@@ -455,18 +456,16 @@ export default function DashPage() {
                       colSpan={5}
                       className="text-center h-24 text-gray-500"
                     >
-                      {loadingData ? <SkeletonText /> : "Tidak ada data izin"}
+                      {loadingData ? (
+                        <SkeletonText />
+                      ) : (
+                        "Tidak ada izin pending"
+                      )}
                     </TableCell>
                   </TableRow>
                 )}
               </TableBody>
             </Table>
-
-            {!loading && permits.length === 0 && (
-              <p className="text-center text-gray-400 mt-5">
-                Tidak ada izin pending
-              </p>
-            )}
           </div>
         )}
 

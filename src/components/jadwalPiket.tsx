@@ -15,7 +15,6 @@ interface Staff {
 }
 
 export default function JadwalPiket({todayName, todayPiketStaff, loadingData} : {todayName: string, todayPiketStaff: Staff[], loadingData: boolean}) {
-  
   return (
     <div className="flex flex-col md:w-1/3">
       <h2 className="md:text-xl text-md text-black/30 font-bold ml-1">
