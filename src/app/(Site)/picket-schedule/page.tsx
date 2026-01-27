@@ -68,6 +68,7 @@ export default function ReportPage() {
   const [selectedDay, setSelectedDay] = useState<string>("");
 
   const year = new Date().getFullYear();
+  const [user, setUser] = useState<UserAuth>();
 
   const fetchData = useCallback(async () => {
     try {
