@@ -15,7 +15,6 @@ import {
 } from "lucide-react";
 import api from "@/lib/axios";
 
-// Shadcn UI Components
 import {
   Dialog,
   DialogContent,
@@ -87,7 +86,7 @@ export default function TeacherPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header Section */}
+      
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 ml-3">
         <h1 className="text-2xl font-bold text-gray-700 flex items-center gap-3">
           <div className="p-2 bg-[#007D72]/10 rounded-lg">

@@ -36,12 +36,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { AlertDialog } from "@radix-ui/react-alert-dialog";
-import {
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 
 export default function EditTeacherPage() {
   const { id } = useParams();
@@ -153,6 +147,7 @@ export default function EditTeacherPage() {
   };
 
   const handleRoleSubmit = async () => {
+    setLoading(true);
     try {
       await api.post(`/user-roles/${id}`, {
         role_id: Number(formData.selectedRoleId),
@@ -164,6 +159,8 @@ export default function EditTeacherPage() {
       if (error instanceof AxiosError) {
         toast.error(error.response?.data.message || "Gagal memperbarui data");
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -337,9 +334,15 @@ export default function EditTeacherPage() {
                       <DialogFooter>
                         <Button
                           type="submit"
-                          disabled={loading}
                           onClick={() => handleRoleSubmit()}
+                          disabled={loading}
+                          className="flex items-center gap-2 bg-[#007D72] text-white px-8 py-3 rounded-lg font-bold hover:bg-[#006058] transition-all disabled:opacity-70"
                         >
+                          {loading ? (
+                            <Loader2 className="animate-spin mr-2" size={16} />
+                          ) : (
+                            <Save size={16} />
+                          )}
                           Tambah
                         </Button>
                       </DialogFooter>

@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Filter, Loader2, School, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Filter, Loader2, School, Search } from "lucide-react";
 import api from "@/lib/axios";
 import {
   Dialog,
@@ -59,6 +59,11 @@ interface StudentPermit {
 export default function ReportPage() {
   const [data, setData] = useState<StudentPermit[]>([]);
   const [loading, setLoading] = useState(true);
+  const limit = 10;
+  const [page, setPage] = useState(1);
+  const [totalData, setTotalData] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+
 
   const [searchQuery, setSearchQuery] = useState("");
   const [timeFilter, setTimeFilter] = useState("all");
@@ -66,8 +71,18 @@ export default function ReportPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await api.get("/student-permits");
+        const res = await api.get("/student-permits",{
+          params: {
+            limit,
+            page,
+            search : searchQuery || undefined,
+          }
+        });
         setData(res.data.data);
+        if (res.data.meta) {
+          setTotalData(res.data.meta.totalItems || 1);
+          setTotalPages(res.data.meta.totalPages || 1);
+        }
         setLoading(false);
       } catch (error) {
         console.error("Error fetching students permits:", error);
@@ -75,7 +90,7 @@ export default function ReportPage() {
       }
     };
     fetchData();
-  }, []);
+  }, [page, searchQuery]);
 
   const filteredData = data.filter((item) => {
     const matchesSearch = item.students
@@ -160,7 +175,7 @@ export default function ReportPage() {
           <div className="p-2 bg-[#007D72]/10 rounded-lg">
             <School className="text-[#007D72]" size={32} />
           </div>
-          Laporan Izin  
+          Laporan Izin
         </h1>
       </div>
       <div className="bg-white/60 w-full h-full rounded-lg shadow-md p-5 space-y-5 overflow-hidden flex flex-col">
@@ -289,21 +304,25 @@ export default function ReportPage() {
                       className="sm:max-w-[425px] border-l-8 border-[#00786E] p-6 bg-white rounded-xl shadow-2xl"
                     >
                       <DialogHeader className="space-y-1">
-                        <div className="flex flex-col gap-1">
+                        <div className="flex flex-col items-center gap-1">
                           <DialogTitle className="text-2xl font-extrabold text-gray-800 leading-tight">
                             Daftar Siswa Izin
                           </DialogTitle>
-                          <div className="flex justify-between px-2">
+                          <span className="flex gap-2">
                             <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 w-fit px-3 py-1 rounded-full">
-                              {formatTanggalIndo(permit.created_at)}
+                              📅 {formatTanggalIndo(permit.created_at)}
                             </span>
-                            <span className="text-sm font-medium text-[#00786E] bg-[#00786E]/10 w-fit px-3 py-1 rounded-full">
-                              {permit.status}
+                            <span
+                              className={`px-2 py-1 rounded-full text-xs font-bold border ${getStatusBadge(
+                                permit.status,
+                              )}`}
+                            >
+                              {formatStatus(permit.status)}
                             </span>
-                          </div>
+                          </span>
                         </div>
 
-                        <div className="h-[5px] w-full bg-gray-100 " />
+                        <div className="h-[5px] w-full bg-gray-400 mx-4 " />
 
                         <DialogDescription asChild>
                           <div className="">
@@ -371,6 +390,27 @@ export default function ReportPage() {
             </TableBody>
           </Table>
         </div>
+        <div className="flex justify-between items-center p-4 bg-slate-50 border-t border-slate-200">
+                    <div className="text-xs md:text-sm text-slate-500 font-medium">
+                      Halaman <span className="text-slate-800">{page}</span> dari <span className="text-slate-800">{totalPages}</span>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setPage((p) => Math.max(p - 1, 1))}
+                        disabled={page === 1 || loading}
+                        className="p-2 bg-white border border-slate-300 rounded-md hover:bg-slate-50 disabled:opacity-50 transition-all shadow-sm"
+                      >
+                        <ChevronLeft size={18} />
+                      </button>
+                      <button
+                        onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+                        disabled={page === totalPages || loading}
+                        className="p-2 bg-white border border-slate-300 rounded-md hover:bg-slate-50 disabled:opacity-50 transition-all shadow-sm"
+                      >
+                        <ChevronRight size={18} />
+                      </button>
+                    </div>
+                  </div>
       </div>
     </>
   );
