@@ -31,6 +31,17 @@ import {
   Draggable,
   DropResult,
 } from "@hello-pangea/dnd";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface Teacher {
   id: number;
@@ -92,7 +103,7 @@ export default function ReportPage() {
     const sourceItems = Array.from(scheduleData[source.droppableId]);
     const destItems = Array.from(scheduleData[destination.droppableId]);
     const [movedItem] = sourceItems.splice(source.index, 1);
-    
+
     destItems.splice(destination.index, 0, movedItem);
 
     setScheduleData({
@@ -152,6 +163,21 @@ export default function ReportPage() {
       setTeachers(res.data.data);
     } catch (error) {
       console.error("Failed to fetch teachers", error);
+    }
+  };
+
+  const handleDelete = async (id: number) => {
+    setLoading(true);
+    try {
+      const res = await api.delete(`/piket-schedules/${id}`);
+      toast.success("Jadwal berhasil dihapus");
+      fetchData();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message || "Gagal mengambil data");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -277,6 +303,44 @@ export default function ReportPage() {
                               <div className="w-2 h-8 bg-[#007D72] rounded-full mr-3"></div>
                               <p className="text-gray-700 font-medium">
                                 {item.teacher.fullname}
+                                {isAdmin && (
+                                  <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                      <Button
+                                        variant="outline"
+                                        className="ml-2 text-red-500 hover:text-white border-0 bg-[#CAECE9] hover:bg-[#007D72]/60"
+                                      >
+                                        <Trash2 className="w-4 h-4" />
+                                      </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                      <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                          Hapus Jadwal ini?
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                          . Jadwal ini akan dihapus permanen
+                                          dari database.
+                                        </AlertDialogDescription>
+                                      </AlertDialogHeader>
+                                      <AlertDialogFooter>
+                                        <AlertDialogCancel>
+                                          Cancel
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                          onClick={() => handleDelete(item.id)}
+                                        >
+                                          {loading ? (
+                                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                          ) : (
+                                            "Hapus" 
+                                          )}
+                                          
+                                        </AlertDialogAction>
+                                      </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                  </AlertDialog>
+                                )}
                               </p>
                             </div>
                           )}
