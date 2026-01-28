@@ -27,7 +27,8 @@ import {
 } from "@/components/ui/dialog";
 import { AlertDialogHeader } from "@/components/ui/alert-dialog";
 import { SkeletonText } from "@/components/sekeleton/SekeletonText";
-import { Loader2, School } from "lucide-react";
+import { CheckCircle2, Loader2, School } from "lucide-react";
+import SatpamPage from "@/components/satpamPage";
 
 interface StudentPermit {
   id: number;
@@ -246,26 +247,18 @@ export default function DashPage() {
           </div>
           {!isAdmin && !isPiket && !isMapel && !isSatpam ? (
             <p className="text-3xl">Dashboard</p>
+          ) : isSatpam ? (
+            <p className="text-2xl font-bold text-slate-800 flex items-center gap-2">
+              Izin Siswa Disetujui
+            </p>
           ) : (
-            <p className="text-xl">Antrian Surat Izin (Mapel) </p>
+            <p className="text-xl">Antrian Surat Izin (Mapel)</p>
           )}
         </h1>
       </div>
       <div className="bg-white/60 w-full  rounded-lg shadow-md p-5 space-y-2 flex flex-col">
         {(isAdmin || isPiket) && (
           <>
-            {/* <h1 className="text-4xl font-bold text-gray-600 drop-shadow-2xl">
-              Dashboard
-              {user && (
-                <span>
-                  {" "}
-                  {user.fullname}{" "}
-                  <span className="text-sm text-gray-400">
-                    ({user.roles.join(", ")})
-                  </span>
-                </span>
-              )}
-            </h1> */}
             <TabelIzinBaru />
 
             <div className="flex flex-col md:flex-row gap-5  flex-1 min-h-0">
@@ -471,9 +464,7 @@ export default function DashPage() {
 
         {isSatpam && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-600 drop-shadow-2xl mb-5">
-              Antrian Surat Izin (Mapel)
-            </h2>
+            <SatpamPage />
           </div>
         )}
       </div>
