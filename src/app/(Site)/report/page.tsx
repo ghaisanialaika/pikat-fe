@@ -215,25 +215,25 @@ export default function ReportPage() {
             <TableHeader className="sticky z-10 bg-[#FFFFFF]/90 top-0">
               <TableRow>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Tanggal
+                  TANGGAL
                 </TableHead>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Siswa
+                  SISWA
                 </TableHead>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Kelas
+                  KELAS
                 </TableHead>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Alasan
+                  ALASAN
                 </TableHead>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Mapel
+                  MAPEL
                 </TableHead>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Piket
+                  PIKET
                 </TableHead>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Status
+                  STATUS
                 </TableHead>
               </TableRow>
             </TableHeader>

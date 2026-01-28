@@ -126,9 +126,9 @@ export default function TeacherPage() {
             <table className="w-full text-left border-collapse">
               <thead className="bg-slate-50 border-b border-slate-200">
                 <tr>
-                  <th className="p-4 text-sm font-bold text-slate-600">Guru</th>
+                  <th className="p-4 text-sm font-bold text-slate-600">GURU</th>
                   <th className="p-4 text-sm font-bold text-slate-600">NIP / ID</th>
-                  <th className="p-4 text-sm font-bold text-slate-600 text-right">Aksi</th>
+                  <th className="p-4 text-sm font-bold text-slate-600 text-right">AKSI</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">

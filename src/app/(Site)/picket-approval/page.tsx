@@ -167,22 +167,22 @@ export default function PicketApproval() {
                   NIS
                 </TableHead>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Nama
+                  NAMA
                 </TableHead>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Kelas
+                  KELAS
                 </TableHead>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Jam
+                  JAM
                 </TableHead>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Alasan
+                  ALASAN
                 </TableHead>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Mapel
+                  MAPEL
                 </TableHead>
                 <TableHead className="font-bold text-gray-500 text-lg">
-                  Status
+                  STATUS
                 </TableHead>
               </TableRow>
             </TableHeader>
