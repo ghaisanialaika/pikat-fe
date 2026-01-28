@@ -117,26 +117,26 @@ export default function TabelIzinBaru() {
         <Table className="bg-[#FFFFFF]/90 shadow-xl rounded-lg">
           <TableHeader className="sticky z-10 bg-[#FFFFFF]/90 top-0">
             <TableRow>
-              <TableHead className="font-bold text-gray-500 text-lg">
-                Tanggal
+              <TableHead className="font-bold text-gray-500 text-md">
+                TANGGAL
               </TableHead>
-              <TableHead className="font-bold text-gray-500 text-lg">
-                Siswa
+              <TableHead className="font-bold text-gray-500 text-md">
+                SISWA
               </TableHead>
-              <TableHead className="font-bold text-gray-500 text-lg">
-                Kelas
+              <TableHead className="font-bold text-gray-500 text-md">
+                KELAS
               </TableHead>
-              <TableHead className="font-bold text-gray-500 text-lg">
-                Alasan
+              <TableHead className="font-bold text-gray-500 text-md">
+                ALASAN
               </TableHead>
-              <TableHead className="font-bold text-gray-500 text-lg">
-                Mapel
+              <TableHead className="font-bold text-gray-500 text-md">
+                MAPEL
               </TableHead>
-              <TableHead className="font-bold text-gray-500 text-lg">
-                Piket
+              <TableHead className="font-bold text-gray-500 text-md">
+                PIKET
               </TableHead>
-              <TableHead className="font-bold text-gray-500 text-lg">
-                Status
+              <TableHead className="font-bold text-gray-500 text-md">
+                STATUS
               </TableHead>
             </TableRow>
           </TableHeader>

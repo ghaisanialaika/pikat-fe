@@ -52,7 +52,6 @@ interface Student {
   class: string;
 }
 
-
 export default function LicensePage() {
   const router = useRouter();
 
@@ -61,7 +60,7 @@ export default function LicensePage() {
   const [selectedOfficer, setSelectedOfficer] = useState<User | null>(null);
   const [selectedStudents, setSelectedStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(false);
-  const [loadingInitial, setLoadingInitial] = useState(true);   
+  const [loadingInitial, setLoadingInitial] = useState(true);
 
   const [form, setForm] = useState({
     student_nis: [] as string[],
@@ -156,7 +155,7 @@ export default function LicensePage() {
 
   return (
     <>
-    <div className="-mb-5 ml-3">
+      <div className="-mb-5 ml-3">
         <h1 className="text-2xl font-bold text-gray-700 flex items-center gap-3">
           <div className="p-2 bg-[#007D72]/10 rounded-lg">
             <School className="text-[#007D72]" size={32} />
@@ -164,11 +163,10 @@ export default function LicensePage() {
           Surat Izin
         </h1>
       </div>
-    <div className="bg-white/60 w-full h-full rounded-lg shadow-md p-6 space-y-6">
-
-      <div className="bg-white/80 rounded-lg p-6 space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-b pb-6">
-          {/* <div className="flex flex-col space-y-2">
+      <div className="bg-white/60 w-full rounded-lg shadow-md pt-6 p-6 space-y-6">
+        <div className=" rounded-lg space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-b pb-6">
+            {/* <div className="flex flex-col space-y-2">
             <Label>Nama Petugas Piket </Label>
             <Popover>
               <PopoverTrigger asChild>
@@ -222,189 +220,191 @@ export default function LicensePage() {
             </Popover>
             
           </div> */}
-          <div className="flex flex-col space-y-2">
-            <Label>Nama Petugas (Piket/Admin)</Label>
-            <div className="relative">
-              <Input
-                value={
-                  loadingInitial
-                    ? "Memuat..."
-                    : selectedOfficer?.fullname || "Tidak Terdeteksi"
-                }
-                disabled
-                className="bg-gray-100 font-medium text-gray-700"
-              />
-              {loadingInitial && (
-                <Loader2 className="absolute right-3 top-2.5 h-4 w-4 animate-spin text-gray-400" />
-              )}
-            </div>
-            <p className="text-[10px] text-muted-foreground italic">
-              * Petugas otomatis terdeteksi dari akun Anda yang sedang login.
-            </p>
-          </div>
-
-          <div>
-            <Label>NIP Petugas</Label>
-            <Input
-              value={selectedOfficer?.nip || "-"}
-              disabled
-              placeholder="Otomatis"
-            />
-          </div>
-
-          <div className="flex-col space-y-2">
-            <Label>Tanggal</Label>
-            <Input value={new Date().toLocaleDateString("id-ID")} disabled />
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-5">
             <div className="flex flex-col space-y-2">
-              <Label>Guru Mapel</Label>
-              <Select
-                onValueChange={(val) =>
-                  setForm((f) => ({ ...f, mapel_user_id: val }))
-                }
-                value={form.mapel_user_id}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih Guru Mapel" />
-                </SelectTrigger>
-                <SelectContent>
-                  {teachers.map((t) => (
-                    <SelectItem key={t.id} value={t.id.toString()}>
-                      {t.fullname}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col space-y-2">
-              <Label>Jam Ke-</Label>
-              <Select
-                onValueChange={(val) =>
-                  setForm((f) => ({ ...f, hours_start: val }))
-                }
-                value={form.hours_start}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih Jam ke-" />
-                </SelectTrigger>
-                <SelectContent>
-                  {[...Array(15)].map((_, i) => (
-                    <SelectItem key={i + 1} value={(i + 1).toString()}>
-                      {i + 1}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col space-y-2">
-              <Label>Jam Selesai</Label>
-              <Select
-                onValueChange={(val) =>
-                  setForm((f) => ({ ...f, hours_end: val }))
-                }
-                value={form.hours_end}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Pilih Jam ke-" />
-                </SelectTrigger>
-                <SelectContent>
-                  {[...Array(15)].map((_, i) => (
-                    <SelectItem key={i + 1} value={(i + 1).toString()}>
-                      {i + 1}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </div>
-        <div className="space-y-4">
-          <Label>Cari & Pilih Siswa (Bisa lebih dari 1)</Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full justify-between">
-                {selectedStudents.length > 0
-                  ? `${selectedStudents.length} Siswa Terpilih`
-                  : "Cari Siswa..."}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-[400px] p-0">
-              <Command>
-                <CommandInput placeholder="Cari nama / NIS siswa..." />
-                <CommandList>
-                  <CommandEmpty>Siswa tidak ditemukan</CommandEmpty>
-                  <CommandGroup>
-                    {students.map((s) => (
-                      <CommandItem
-                        key={s.nis}
-                        onSelect={() => toggleStudent(s)}
-                        className="cursor-pointer"
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            selectedStudents.some((x) => x.nis === s.nis)
-                              ? "opacity-100"
-                              : "opacity-0",
-                          )}
-                        />
-                        {s.name} — {s.class}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
-
-          <div className="flex flex-wrap gap-2">
-            {selectedStudents.map((s) => (
-              <Badge
-                key={s.nis}
-                variant="secondary"
-                className="py-1 px-3 flex items-center gap-1"
-              >
-                {s.name} ({s.class})
-                <X
-                  className="h-3 w-3 cursor-pointer hover:text-red-500"
-                  onClick={() => toggleStudent(s)}
+              <Label>Nama Petugas (Piket/Admin)</Label>
+              <div className="relative">
+                <Input
+                  value={
+                    loadingInitial
+                      ? "Memuat..."
+                      : selectedOfficer?.fullname || "Tidak Terdeteksi"
+                  }
+                  disabled
+                  className="bg-gray-100 font-medium text-gray-700"
                 />
-              </Badge>
-            ))}
-          </div>
-        </div>
+                {loadingInitial && (
+                  <Loader2 className="absolute right-3 top-2.5 h-4 w-4 animate-spin text-gray-400" />
+                )}
+              </div>
+              <p className="text-[10px] text-muted-foreground italic">
+                * Petugas otomatis terdeteksi dari akun Anda yang sedang login.
+              </p>
+            </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-          <div className="flex flex-col space-y-2">
-            <Label>Alasan Izin</Label>
-            <Textarea
-              placeholder="Masukkan Deskripsi Izin"
-              value={form.reason}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, reason: e.target.value }))
-              }
-            />
+            <div>
+              <Label>NIP Petugas</Label>
+              <Input
+                value={selectedOfficer?.nip || "-"}
+                disabled
+                placeholder="Otomatis"
+              />
+            </div>
+
+            <div className="flex-col space-y-2">
+              <Label>Tanggal</Label>
+              <Input value={new Date().toLocaleDateString("id-ID")} disabled />
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-2">
+              <div className="flex flex-col space-y-2">
+                <Label>Guru Mapel</Label>
+                <Select
+                  onValueChange={(val) =>
+                    setForm((f) => ({ ...f, mapel_user_id: val }))
+                  }
+                  value={form.mapel_user_id}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Pilih Guru Mapel" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {teachers.map((t) => (
+                      <SelectItem key={t.id} value={t.id.toString()}>
+                        {t.fullname}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-row  gap-2">
+                <div className="flex flex-col space-y-2">
+                  <Label>Jam Ke-</Label>
+                  <Select
+                    onValueChange={(val) =>
+                      setForm((f) => ({ ...f, hours_start: val }))
+                    }
+                    value={form.hours_start}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih Jam ke-" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[...Array(15)].map((_, i) => (
+                        <SelectItem key={i + 1} value={(i + 1).toString()}>
+                          {i + 1}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex flex-col space-y-2">
+                  <Label>Jam Selesai</Label>
+                  <Select
+                    onValueChange={(val) =>
+                      setForm((f) => ({ ...f, hours_end: val }))
+                    }
+                    value={form.hours_end}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih Jam ke-" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[...Array(15)].map((_, i) => (
+                        <SelectItem key={i + 1} value={(i + 1).toString()}>
+                          {i + 1}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <Label>Cari & Pilih Siswa (Bisa lebih dari 1)</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="w-full justify-between">
+                  {selectedStudents.length > 0
+                    ? `${selectedStudents.length} Siswa Terpilih`
+                    : "Cari Siswa..."}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[400px] p-0">
+                <Command>
+                  <CommandInput placeholder="Cari nama / NIS siswa..." />
+                  <CommandList>
+                    <CommandEmpty>Siswa tidak ditemukan</CommandEmpty>
+                    <CommandGroup>
+                      {students.map((s) => (
+                        <CommandItem
+                          key={s.nis}
+                          onSelect={() => toggleStudent(s)}
+                          className="cursor-pointer"
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              selectedStudents.some((x) => x.nis === s.nis)
+                                ? "opacity-100"
+                                : "opacity-0",
+                            )}
+                          />
+                          {s.name} — {s.class}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
+
+            <div className="flex flex-wrap gap-2">
+              {selectedStudents.map((s) => (
+                <Badge
+                  key={s.nis}
+                  variant="secondary"
+                  className="py-1 px-3 flex items-center gap-1"
+                >
+                  {s.name} ({s.class})
+                  <X
+                    className="h-3 w-3 cursor-pointer hover:text-red-500"
+                    onClick={() => toggleStudent(s)}
+                  />
+                </Badge>
+              ))}
+            </div>
           </div>
 
-          <Button
-            className="col-span-1 md:col-span-2 w-full md:w-1/3 ml-auto bg-[#007D72] hover:bg-[#007D72]/90"
-            onClick={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Menyimpan...
-              </>
-            ) : (
-              "Kirim Izin"
-            )}
-          </Button>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+            <div className="flex flex-col space-y-2">
+              <Label>Alasan Izin</Label>
+              <Textarea
+                placeholder="Masukkan Deskripsi Izin"
+                value={form.reason}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, reason: e.target.value }))
+                }
+              />
+            </div>
+
+            <Button
+              className="col-span-1 md:col-span-2 w-full md:w-1/3 ml-auto bg-[#007D72] hover:bg-[#007D72]/90"
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Menyimpan...
+                </>
+              ) : (
+                "Kirim Izin"
+              )}
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 }

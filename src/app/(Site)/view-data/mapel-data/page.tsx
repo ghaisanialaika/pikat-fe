@@ -29,24 +29,21 @@ interface Subject {
 }
 
 export default function SubjectsPage() {
-  // State Data
+
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Pagination & Search
   const [searchTerm, setSearchTerm] = useState("");
   const [totalData, setTotalData] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
   const limit = 8;
 
-  // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editId, setEditId] = useState<number | null>(null);
   const [formData, setFormData] = useState({ name: "" });
 
-  // --- API CALLS ---
 
   const fetchSubjects = useCallback(async () => {
     setLoading(true);
@@ -55,7 +52,7 @@ export default function SubjectsPage() {
         params: {
           limit,
           page,
-          search: searchTerm, // Perbaikan typo 'seach'
+          search: searchTerm,
         },
       });
       setSubjects(res.data.data || []);
@@ -79,8 +76,6 @@ export default function SubjectsPage() {
     }, 500); // Debounce 500ms
     return () => clearTimeout(delayDebounceFn);
   }, [fetchSubjects]);
-
-  // --- HANDLERS ---
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

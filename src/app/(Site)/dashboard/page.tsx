@@ -245,7 +245,7 @@ export default function DashPage() {
           <div className="p-2 bg-[#007D72]/10 rounded-lg">
             <School className="text-[#007D72]" size={32} />
           </div>
-          {!isAdmin && !isPiket && !isMapel && !isSatpam ? (
+          {isAdmin || isPiket || !isMapel || !isSatpam ? (
             <p className="text-3xl">Dashboard</p>
           ) : isSatpam ? (
             <p className="text-2xl font-bold text-slate-800 flex items-center gap-2">

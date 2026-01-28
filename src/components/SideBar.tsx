@@ -314,8 +314,8 @@ export default function SideBar() {
             })}
         </nav>
 
-        <div className="p-4 my-15 m-2 rounded-2xl">
-          <div className="p-4  mb-3 rounded-xl bg-white shadow-sm border">
+        <div className="m-2 px-5 mb-14 space-y-5 rounded-2xl">
+          <div className="p-4  rounded-xl bg-white shadow-sm border">
             {user && (
               <div className="flex items-center gap-3">
                 <div className="w-11 h-11 rounded-full bg-[#007D72]/20 flex items-center justify-center text-[#007D72] font-bold text-lg">
