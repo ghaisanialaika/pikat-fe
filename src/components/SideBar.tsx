@@ -12,8 +12,10 @@ import {
   Clock,
   Edit,
   Eye,
-  ChevronDown, 
+  ChevronDown,
   ChevronUp,
+  BookAlertIcon,
+  Database,
 } from "lucide-react";
 import api from "@/lib/axios";
 import Image from "next/image";
@@ -52,14 +54,12 @@ export default function SideBar() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-    const hasAccess = (itemRoles?: string[]) => {
-      if (!itemRoles || itemRoles.length === 0) return true;
-      if (!user) return false;
+  const hasAccess = (itemRoles?: string[]) => {
+    if (!itemRoles || itemRoles.length === 0) return true;
+    if (!user) return false;
 
-      return itemRoles.some((role) => user.roles.includes(role));
-    };
-
-
+    return itemRoles.some((role) => user.roles.includes(role));
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -81,13 +81,13 @@ export default function SideBar() {
         toast.success(e.message);
       }
     }
-      localStorage.clear();
-      window.location.href = "/login";
+    localStorage.clear();
+    window.location.href = "/login";
   };
 
   const toggleSubMenu = (menuName: string) => {
     if (openSubMenu === menuName) {
-      setOpenSubMenu(null); 
+      setOpenSubMenu(null);
     } else {
       setOpenSubMenu(menuName);
     }
@@ -99,6 +99,12 @@ export default function SideBar() {
       href: "/dashboard",
       icon: Home,
       roles: ["admin", "piket", "mapel", "satpam"],
+    },
+    {
+      name: "Buat Surat Izin",
+      href: "/license",
+      icon: Edit,
+      roles: ["piket", "admin"],
     },
     {
       name: "Laporan Izin",
@@ -116,12 +122,6 @@ export default function SideBar() {
       name: "Jadwal Piket",
       href: "/picket-schedule",
       icon: Clock,
-      roles: ["piket", "admin"] ,
-    },
-    {
-      name: "Buat Surat Izin",
-      href: "/license",
-      icon: Edit,
       roles: ["piket", "admin"],
     },
     {
@@ -129,16 +129,32 @@ export default function SideBar() {
       href: "/view-data",
       subLinks: [
         {
-          name: "Data Guru Mapel",
+          name: "Data Guru",
           href: "/view-data/teacher-data",
+          roles: ["admin"],
+        },
+        {
+          name: "Data Mapel",
+          href: "/view-data/mapel-data",
           roles: ["admin"],
         },
       ],
       icon: Eye,
       roles: ["admin"],
     },
+    {
+      name: "Tugas",
+      href: "/task",
+      icon: BookAlertIcon,
+      roles: ["admin", "mapel"],
+    },
+    {
+      name: "Report",
+      href: "/reportData",
+      icon: Database,
+      roles: ["admin", "piket"],
+    }
   ];
-
 
   return (
     <>
@@ -307,7 +323,7 @@ export default function SideBar() {
                 </div>
 
                 <div className="flex flex-col leading-tight">
-                  <span className="font-bold text-gray-800">
+                  <span className="font-bold text-sm text-gray-800">
                     {user.fullname || user.username}
                   </span>
 

@@ -15,16 +15,15 @@ interface Staff {
 }
 
 export default function JadwalPiket({todayName, todayPiketStaff, loadingData} : {todayName: string, todayPiketStaff: Staff[], loadingData: boolean}) {
-  
   return (
     <div className="flex flex-col md:w-1/3">
       <h2 className="md:text-xl text-md text-black/30 font-bold ml-1">
         Petugas Piket Hari {todayName}
       </h2>
 
-      <Card className="bg-[#FFFFFF]/90 shadow-md rounded-lg overflow-hidden h-full">
-        <CardContent className="p-5">
-          <ScrollArea className="h-[300px] w-full pr-4">
+      <Card className="bg-[#FFFFFF]/90 shadow-md rounded-lg overflow-hidden h-110">
+        <CardContent className="p-3">
+          <ScrollArea className="h-[300px] w-full">
             <div className="space-y-2">
               {todayPiketStaff.length > 0 ? (
                 todayPiketStaff.map((staff) => (

@@ -19,7 +19,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Check, ChevronsUpDown, X, Loader2 } from "lucide-react";
+import { Check, ChevronsUpDown, X, Loader2, School } from "lucide-react";
 import {
   Command,
   CommandEmpty,
@@ -38,7 +38,7 @@ interface User {
   username: string;
   fullname: string;
   nip: string | null;
-  roles?: string[]; // Menampung role setelah di-fetch
+  roles?: string[];
 }
 
 interface Teacher {
@@ -61,7 +61,7 @@ export default function LicensePage() {
   const [selectedOfficer, setSelectedOfficer] = useState<User | null>(null);
   const [selectedStudents, setSelectedStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(false);
-  const [loadingInitial, setLoadingInitial] = useState(true);
+  const [loadingInitial, setLoadingInitial] = useState(true);   
 
   const [form, setForm] = useState({
     student_nis: [] as string[],
@@ -74,17 +74,15 @@ export default function LicensePage() {
   const fetchData = useCallback(async () => {
     setLoadingInitial(true);
     try {
-      // 1. Ambil data Siswa, Guru Mapel, dan User yang sedang login secara paralel
       const [studentRes, teacherRes, authRes] = await Promise.all([
         api.get("/students?limit=10000"),
         api.get("/users/mapel"),
-        api.get("/auth/me"), // Ambil data user login
+        api.get("/auth/me"),
       ]);
 
       setStudents(studentRes.data.data);
       setTeachers(teacherRes.data.data);
 
-      // 2. Set petugas otomatis dari user yang login
       const currentUser = authRes.data.data;
       setSelectedOfficer(currentUser);
     } catch (error) {
@@ -157,8 +155,16 @@ export default function LicensePage() {
   };
 
   return (
+    <>
+    <div className="-mb-5 ml-3">
+        <h1 className="text-2xl font-bold text-gray-700 flex items-center gap-3">
+          <div className="p-2 bg-[#007D72]/10 rounded-lg">
+            <School className="text-[#007D72]" size={32} />
+          </div>
+          Surat Izin
+        </h1>
+      </div>
     <div className="bg-white/60 w-full h-full rounded-lg shadow-md p-6 space-y-6">
-      <h1 className="text-4xl font-bold text-gray-600">Halaman Izin Siswa</h1>
 
       <div className="bg-white/80 rounded-lg p-6 space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 border-b pb-6">
@@ -399,5 +405,6 @@ export default function LicensePage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

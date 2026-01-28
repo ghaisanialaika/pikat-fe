@@ -105,8 +105,8 @@ export default function TabelTugasGuru() {
           Tugas Guru
         </span>
       </h2>
-      <div className="bg-white/90 shadow-md rounded-lg p-1 flex-1 border justify-center items-center border-white/50 overflow-hidden  ">
-        <ScrollArea className="w-full whitespace-nowrap h-full">
+      <div className="bg-white/90 shadow-md rounded-lg p-3.5 border justify-center items-center border-white/50 overflow-hidden  ">
+        <ScrollArea className="w-full whitespace-nowrap h-full  ">
           <div className="flex w-full space-x-4 p-2 h-60 justify-start items-center">
             {assignments.length > 0 ? (
               assignments.map((note) => (
@@ -201,21 +201,22 @@ export default function TabelTugasGuru() {
                       </DialogDescription>
                     </DialogHeader>
                     <div className="w-full flex justify-end gap-2">
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button
-                            variant="outline"
-                            className="bg-[#00786E]/60 text-white font-bold hover:bg-[#00786E] hover:text-white transition-all"
-                          >
-                            Selesai
-                          </Button>
-                        </AlertDialogTrigger>
-                        {loadingData ? (
-                          <Loader2
-                            className="animate-spin w-full justify-center items-center"
-                            size={40}
-                          />
-                        ) : (
+                      {loadingData ? (
+                        <Loader2
+                          className="animate-spin w-full justify-center items-center"
+                          size={40}
+                        />
+                      ) : (
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant="outline"
+                              className="bg-[#00786E]/60 text-white font-bold hover:bg-[#00786E] hover:text-white transition-all"
+                            >
+                              Selesai
+                            </Button>
+                          </AlertDialogTrigger>
+
                           <AlertDialogContent>
                             <AlertDialogHeader>
                               <AlertDialogTitle>
@@ -227,20 +228,18 @@ export default function TabelTugasGuru() {
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Batal</AlertDialogCancel>
-                              <AlertDialogAction
-                                onClick={() => deleteAssignment(note.id)}
-                              >
-                                {loadingData ? (
-                                  <Loader2 className="animate-spin" size={10} />
-                                ) : (
-                                  "Selesai"
-                                )}
-                              </AlertDialogAction>
+                              <div className="">
+                                <AlertDialogCancel>Batal</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => deleteAssignment(note.id)}
+                                >
+                                  Selesai
+                                </AlertDialogAction>
+                              </div>
                             </AlertDialogFooter>
                           </AlertDialogContent>
-                        )}
-                      </AlertDialog>
+                        </AlertDialog>
+                      )}
                       <DialogClose asChild>
                         <Button className="bg-[#00786E]/60 text-white font-bold hover:bg-[#00786E]">
                           Tutup
